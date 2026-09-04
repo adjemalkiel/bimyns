@@ -1,0 +1,380 @@
+/* ==========================================================================
+   CTA BIMYNS - Panier Unifié, Tunnel de Commande & Inspecteur ERPNext
+   ========================================================================== */
+
+/* --- Panier Unifié Latéral (Drawer) --- */
+.cart-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  background: rgba(10, 18, 12, 0.5);
+  backdrop-filter: blur(6px);
+  z-index: 600;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+}
+
+.cart-drawer-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  height: 100dvh;
+  background: #ffffff;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.25);
+  z-index: 610;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cart-drawer-overlay.active .cart-drawer {
+  transform: translateX(0);
+}
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--cta-sand-border);
+  background: var(--cta-sand-light);
+}
+
+.cart-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--cta-green-dark);
+}
+
+.cart-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cart-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  gap: 16px;
+  color: #7b8c80;
+}
+
+.cart-empty-icon {
+  font-size: 3.5rem;
+}
+
+/* Ligne d'article du panier */
+.cart-item-row {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid var(--cta-sand-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.cart-item-row:hover {
+  border-color: var(--cta-green-light);
+}
+
+.cart-item-thumb {
+  width: 70px;
+  height: 70px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.cart-item-title {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cta-green-dark);
+}
+
+.cart-item-sub {
+  font-size: 0.76rem;
+  color: #6d7f72;
+}
+
+.cart-item-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.cart-item-price {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--cta-green-primary);
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--cta-sand);
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+}
+
+.qty-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.qty-val {
+  font-size: 0.85rem;
+  font-weight: 700;
+  min-width: 16px;
+  text-align: center;
+}
+
+.cart-item-remove {
+  background: transparent;
+  border: none;
+  color: #99a89d;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px;
+  transition: color var(--transition-fast);
+}
+
+.cart-item-remove:hover {
+  color: #e53935;
+}
+
+/* Pied de page du panier */
+.cart-footer {
+  padding: 20px 24px;
+  background: var(--cta-sand-light);
+  border-top: 1px solid var(--cta-sand-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.86rem;
+  color: #556658;
+}
+
+.cart-summary-row.total-row {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--cta-green-dark);
+  border-top: 1px dashed var(--cta-sand-border);
+  padding-top: 10px;
+}
+
+/* --- Modes de Paiement (Checkout Modal) --- */
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.payment-method-card {
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--cta-sand-border);
+  background: #ffffff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.payment-method-card:hover {
+  border-color: var(--cta-green-light);
+  background: #fbfbf9;
+}
+
+.payment-method-card.active {
+  border-color: var(--cta-green-primary);
+  background: #f7faf7;
+  box-shadow: 0 4px 14px var(--cta-green-glow);
+}
+
+.payment-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+}
+
+.mobile-money-pill {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.pill-mtn {
+  background: #ffcc00;
+  color: #000000;
+}
+
+.pill-moov {
+  background: #0066b2;
+}
+
+.pill-celtiis {
+  background: #008751;
+}
+
+.payment-method-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--cta-green-dark);
+}
+
+.payment-method-desc {
+  font-size: 0.74rem;
+  color: #728275;
+}
+
+/* Formulaire de paiement interactif */
+.payment-input-box {
+  background: #ffffff;
+  border: 1px solid var(--cta-sand-border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* --- Inspecteur de Payload ERPNext --- */
+.erpnext-inspector-modal .modal-card {
+  max-width: 1080px;
+}
+
+.erp-inspector-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 20px;
+}
+
+.erp-config-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid var(--cta-sand-border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.erp-payload-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.code-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.code-viewer-container {
+  background: #0d1710;
+  color: #a5d6a7;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  height: 440px;
+  overflow-y: auto;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.erp-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding: 10px;
+  background: var(--cta-sand-light);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--cta-sand-border);
+  font-size: 0.78rem;
+}
+
+.erp-log-item {
+  display: flex;
+  gap: 8px;
+}
+
+.log-time {
+  color: #88998b;
+  font-weight: 600;
+}
+
+.log-msg-success {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.log-msg-info {
+  color: #1565c0;
+}
+
+.log-msg-error {
+  color: #c62828;
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+  .erp-inspector-layout {
+    grid-template-columns: 1fr;
+  }
+}

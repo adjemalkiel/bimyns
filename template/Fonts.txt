@@ -1,0 +1,9 @@
+Fonts used in this design:
+
+Font: Abril Fatface
+Author: TypeTogether
+Url: http://www.fontsquirrel.com/fonts/abril-fatface
+
+Font: Roboto
+Author: Christian Robertson
+Url: http://www.fontsquirrel.com/fonts/roboto

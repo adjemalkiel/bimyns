@@ -1,0 +1,291 @@
+/* ==========================================================================
+   CTA BIMYNS - Design System & Styles Généraux
+   Complexe Écotouristique & Hôtelier
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Palette de couleurs officielle CTA BIMYNS */
+  --cta-green-dark: #0f3d17;
+  --cta-green-primary: #1b5e20;
+  --cta-green-light: #2e7d32;
+  --cta-green-accent: #4caf50;
+  --cta-green-glow: rgba(46, 125, 50, 0.4);
+
+  /* Tons Écotouristiques Nature & Soleil */
+  --cta-sand: #f4eee2;
+  --cta-sand-light: #fbf9f5;
+  --cta-sand-border: #e2d7c5;
+  --cta-gold: #c8963e;
+  --cta-gold-light: #e5b35f;
+  --cta-gold-glow: rgba(200, 150, 62, 0.35);
+
+  /* Eaux & Lagons */
+  --cta-lagoon: #18c0d9;
+  --cta-lagoon-deep: #127989;
+
+  /* Neutres & Glassmorphism */
+  --cta-dark: #121914;
+  --cta-dark-surface: rgba(18, 25, 20, 0.85);
+  --cta-dark-border: rgba(255, 255, 255, 0.12);
+  --cta-glass-bg: rgba(255, 255, 255, 0.85);
+  --cta-glass-bg-dark: rgba(15, 25, 18, 0.88);
+  --cta-glass-border: rgba(255, 255, 255, 0.35);
+  --cta-glass-border-dark: rgba(76, 175, 80, 0.25);
+
+  /* Typographies */
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Ombres & Rayons */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 9999px;
+  
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.16);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.28);
+  --shadow-glow: 0 0 25px var(--cta-green-glow);
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #fdfbf7;
+  font-family: var(--font-sans);
+  color: #2b332c;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Conteneur de l'application */
+#app {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: visible;
+}
+
+/* Boutons & Éléments Interactifs Communs */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--cta-green-primary) 0%, var(--cta-green-light) 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 15px var(--cta-green-glow);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--cta-green-light) 0%, var(--cta-green-accent) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--cta-green-glow);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--cta-green-dark);
+  border: 1px solid var(--cta-sand-border);
+  backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+  background: #ffffff;
+  border-color: var(--cta-green-light);
+  transform: translateY(-1px);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--cta-gold) 0%, var(--cta-gold-light) 100%);
+  color: #1a160d;
+  box-shadow: 0 4px 15px var(--cta-gold-glow);
+}
+
+.btn-gold:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Badges & Chips */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.badge-green {
+  background: rgba(46, 125, 50, 0.15);
+  color: var(--cta-green-light);
+  border: 1px solid rgba(46, 125, 50, 0.3);
+}
+
+.badge-gold {
+  background: rgba(200, 150, 62, 0.15);
+  color: #b37e22;
+  border: 1px solid rgba(200, 150, 62, 0.35);
+}
+
+.badge-resident {
+  background: linear-gradient(135deg, rgba(200, 150, 62, 0.25), rgba(46, 125, 50, 0.25));
+  color: #936314;
+  border: 1px solid var(--cta-gold);
+}
+
+/* Toasts — carte blanche, teal & orange (maquette splitscreen) */
+#toast-container {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+@media (max-width: 480px) {
+  #toast-container {
+    left: 16px;
+    right: 16px;
+    align-items: stretch;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.toast {
+  pointer-events: auto;
+  min-width: 0;
+  width: min(380px, calc(100vw - 32px));
+  max-width: 380px;
+  padding: 10px 18px 10px 10px;
+  background: #05313c;
+  color: #ffffff;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 28px rgba(5, 49, 60, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Montserrat', var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+  animation: toastIn 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toast-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  background: #eda720;
+  color: #05313c;
+}
+
+.toast-msg {
+  min-width: 0;
+}
+
+.toast.toast-info .toast-icon {
+  background: #eda720;
+  color: #05313c;
+}
+
+.toast.toast-success .toast-icon {
+  background: #ffffff;
+  color: #05313c;
+}
+
+.toast.toast-error .toast-icon {
+  background: #ffb4ab;
+  color: #7a1b14;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbars Personnalisées */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(46, 125, 50, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cta-green-primary);
+}

@@ -1,0 +1,581 @@
+/* ==========================================================================
+   CTA BIMYNS — Below-the-fold homepage sections (hero lives in splitscreen.css)
+   ========================================================================== */
+
+:root {
+  --bimyns-dark: #0d2c20;
+  --bimyns-green: #58a01f;
+  --bimyns-accent: #f9a800;
+  --bimyns-beige: #fdfbf7;
+  --bimyns-muted: #5f6b63;
+  --font-display: 'Abril Fatface', Georgia, serif;
+  --font-ui: 'Montserrat', 'Roboto', system-ui, sans-serif;
+}
+
+html, body {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--bimyns-beige);
+  font-family: var(--font-ui);
+  color: #1f2a24;
+  scroll-padding-top: 80px;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  overflow: visible;
+}
+
+.homepage {
+  padding-top: 0;
+}
+
+.section-shell {
+  width: min(1120px, calc(100% - 2.5rem));
+  margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+  .section-shell {
+    width: min(1120px, calc(100% - 1.5rem));
+  }
+}
+
+.section-eyebrow {
+  display: inline-block;
+  color: var(--bimyns-accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.section-eyebrow-light {
+  color: var(--bimyns-accent);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--bimyns-dark);
+  line-height: 1.15;
+  margin-top: 0.5rem;
+}
+
+.section-title-light {
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-cta-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+/* ---------- Buttons (section CTAs) ---------- */
+.btn-solid-dark,
+.btn-solid-green,
+.btn-solid-light,
+.btn-accent,
+.btn-outline-dark,
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  border: none;
+  text-decoration: none;
+  min-height: 44px;
+  text-align: center;
+}
+
+.btn-solid-dark {
+  background: var(--bimyns-dark);
+  color: #fff;
+  padding: 0.85rem 1.6rem;
+}
+
+.btn-solid-dark:hover {
+  background: var(--bimyns-green);
+}
+
+.btn-solid-green {
+  background: var(--bimyns-green);
+  color: #fff;
+  padding: 1rem 2.2rem;
+  font-size: 1.05rem;
+  box-shadow: 0 10px 28px rgba(88, 160, 31, 0.35);
+}
+
+.btn-solid-green:hover {
+  background: #47851a;
+  transform: translateY(-2px);
+}
+
+.btn-solid-light {
+  background: #fff;
+  color: var(--bimyns-dark);
+  padding: 0.7rem 1.25rem;
+}
+
+.btn-solid-light:hover {
+  background: var(--bimyns-green);
+  color: #fff;
+}
+
+.btn-accent {
+  background: var(--bimyns-accent);
+  color: #fff;
+  padding: 0.7rem 1.25rem;
+}
+
+.btn-accent:hover {
+  background: #d97706;
+}
+
+.btn-outline-dark {
+  background: transparent;
+  color: var(--bimyns-dark);
+  border: 2px solid var(--bimyns-dark);
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-outline-dark:hover {
+  background: var(--bimyns-dark);
+  color: #fff;
+}
+
+.btn-outline-light {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 0.7rem 1.25rem;
+}
+
+.btn-outline-light:hover {
+  background: #fff;
+  color: var(--bimyns-dark);
+}
+
+/* ---------- About ---------- */
+.about-section {
+  padding: 6rem 0;
+  background: var(--bimyns-beige);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.about-media {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(10, 54, 34, 0.18);
+}
+
+.about-media img {
+  width: 100%;
+  display: block;
+  transition: transform 0.7s ease;
+}
+
+.about-media:hover img {
+  transform: scale(1.05);
+}
+
+.about-copy p {
+  color: var(--bimyns-muted);
+  line-height: 1.7;
+  margin: 1rem 0;
+}
+
+/* ---------- Rooms ---------- */
+.rooms-section {
+  padding: 6rem 0;
+  background: #fff;
+}
+
+.rooms-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .rooms-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .rooms-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.room-card {
+  background: var(--bimyns-beige);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(10, 54, 34, 0.08);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.room-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(10, 54, 34, 0.14);
+}
+
+.room-card-media {
+  position: relative;
+  height: 16rem;
+  overflow: hidden;
+}
+
+.room-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.room-card:hover .room-card-media img {
+  transform: scale(1.08);
+}
+
+.room-card-chip {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #fff;
+  color: var(--bimyns-dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.room-card-body {
+  padding: 1.4rem;
+}
+
+.room-card-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  color: var(--bimyns-dark);
+  margin-bottom: 0.55rem;
+}
+
+.room-card-body p {
+  color: var(--bimyns-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin-bottom: 1rem;
+}
+
+.room-card-meta {
+  display: flex;
+  gap: 0.75rem;
+  color: #8a9490;
+  border-top: 1px solid rgba(10, 54, 34, 0.08);
+  padding-top: 0.9rem;
+}
+
+/* ---------- Leisure ---------- */
+.leisure-section {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .leisure-section {
+    grid-template-columns: 1fr 1fr;
+    min-height: 24rem;
+  }
+}
+
+.leisure-panel {
+  position: relative;
+  min-height: 22rem;
+  overflow: hidden;
+}
+
+.leisure-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.72);
+  transition: transform 0.7s ease;
+}
+
+.leisure-panel-dark .leisure-bg {
+  filter: brightness(0.45);
+}
+
+.leisure-panel:hover .leisure-bg {
+  transform: scale(1.05);
+}
+
+.leisure-overlay {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  min-height: 22rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  color: #fff;
+}
+
+.leisure-overlay h3 {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  margin-bottom: 0.5rem;
+}
+
+.leisure-overlay p {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  margin-bottom: 1.4rem;
+}
+
+.leisure-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* ---------- Restaurant ---------- */
+.restaurant-section {
+  position: relative;
+  padding: 8rem 1.25rem;
+  overflow: hidden;
+}
+
+.restaurant-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.45);
+}
+
+.restaurant-content {
+  position: relative;
+  z-index: 2;
+  max-width: 48rem;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+}
+
+.restaurant-content p {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 1.4rem 0 2rem;
+}
+
+/* ---------- Gallery teaser ---------- */
+.gallery-teaser {
+  padding: 6rem 0;
+  background: var(--bimyns-beige);
+}
+
+.gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .gallery-strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.gallery-strip img {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  border-radius: 1rem;
+  box-shadow: 0 12px 28px rgba(10, 54, 34, 0.12);
+  transition: transform 0.35s ease;
+}
+
+.gallery-strip img:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: #111827;
+  color: #fff;
+  padding: 4rem 0 2rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.footer-logo {
+  height: 48px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+  margin-bottom: 1rem;
+}
+
+.site-footer p,
+.footer-pay-note {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.site-footer h4 {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.site-footer ul {
+  list-style: none;
+}
+
+.site-footer li {
+  margin-bottom: 0.55rem;
+}
+
+.site-footer button {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.site-footer button:hover {
+  color: var(--bimyns-green);
+}
+
+.footer-contact li {
+  display: flex;
+  gap: 0.65rem;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+.footer-contact i {
+  width: 1rem;
+  margin-top: 0.2rem;
+}
+
+.footer-pay-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+  font-size: 1.5rem;
+  color: #9ca3af;
+}
+
+.pay-chip {
+  border: 1px solid #9ca3af;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.2rem 0.45rem;
+}
+
+.footer-copy {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .about-section,
+  .rooms-section,
+  .gallery-teaser {
+    padding: 3.5rem 0;
+  }
+
+  .restaurant-section {
+    padding: 4.5rem 1.15rem;
+  }
+
+  .leisure-overlay {
+    min-height: 18rem;
+    padding: 1.5rem;
+  }
+
+  .leisure-overlay h3 {
+    font-size: 1.85rem;
+  }
+
+  .gallery-strip img {
+    height: 9rem;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+}

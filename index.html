@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CTA BIMYNS - Écotourisme & Loisirs au Bénin</title>
+    <meta name="description" content="Site officiel du complexe CTA BIMYNS : hébergements de prestige, piscine aux 3 bassins en cascade, court de tennis et restaurant sur le lac artificiel. Réservations connectées ERPNext." />
+    <link rel="icon" type="image/png" href="/assets/logo-transparent.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <link rel="stylesheet" href="/src/styles/main.css" />
+    <link rel="stylesheet" href="/src/styles/splitscreen.css" />
+    <link rel="stylesheet" href="/src/styles/homepage.css" />
+    <link rel="stylesheet" href="/src/styles/modals.css" />
+    <link rel="stylesheet" href="/src/styles/cart.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Sticky site header — visible after scrolling past the hero -->
+      <header id="site-sticky-header" class="site-sticky-header" aria-hidden="true">
+        <div class="site-sticky-header__inner">
+          <div class="nav-brand-group">
+            <img
+              src="/assets/logo-transparent.png"
+              alt="CTA BIMYNS"
+              class="split-logo-img site-sticky-logo"
+              role="button"
+              tabindex="0"
+              aria-label="Accueil CTA BIMYNS"
+              title="Accueil"
+              data-logo-home
+            />
+            <nav aria-label="Navigation sticky">
+              <ul class="split-menu-links" id="sticky-menu-links">
+                <li class="split-menu-link active" data-action="home">Accueil</li>
+                <li class="split-menu-link" data-action="rooms">Chambres</li>
+                <li class="split-menu-link" data-action="leisure">Loisirs</li>
+                <li class="split-menu-link" data-action="restaurant">Restaurant</li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="site-sticky-tools">
+            <div class="search-input-pill sticky-search-pill">
+              <input
+                type="text"
+                class="search-field"
+                id="sticky-search-input"
+                placeholder="Rechercher..."
+                aria-label="Rechercher"
+              />
+              <button class="search-icon-btn" id="sticky-search-btn" type="button" aria-label="Lancer la recherche">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <div class="currency-toggle">
+              <button class="curr-btn active" data-curr="XOF" type="button">FCFA</button>
+              <button class="curr-btn" data-curr="EUR" type="button">EUR</button>
+            </div>
+            <button class="btn-split-account btn-account-top" type="button">
+              <i class="fas fa-user"></i>
+              <span class="nav-account-label">Mon Compte</span>
+            </button>
+            <button class="btn-split-cart btn-cart-top is-hidden" type="button" title="Ouvrir mon panier" aria-hidden="true">
+              <i class="fas fa-shopping-bag"></i>
+              <span class="cart-count-badge nav-cart-count">0</span>
+            </button>
+          </div>
+
+          <button class="split-nav-burger sticky-nav-burger" type="button" aria-label="Menu" aria-controls="sticky-menu-links">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="homepage">
+        <!-- HERO — maquette 5155520.jpg (splitscreen diagonal) -->
+        <section class="splitscreen-wrapper" id="accueil">
+          <div class="split-hero-container">
+            <div class="split-left-panel">
+              <div class="palm-watermark-bg" aria-hidden="true"></div>
+
+              <header class="split-top-nav">
+                <div class="nav-brand-group">
+                  <img
+                    src="/assets/logo-transparent.png"
+                    alt="CTA BIMYNS"
+                    class="split-logo-img"
+                    id="split-logo-btn"
+                    role="button"
+                    tabindex="0"
+                    aria-label="Accueil CTA BIMYNS"
+                    title="Accueil"
+                    data-logo-home
+                  />
+
+                  <nav aria-label="Navigation principale">
+                    <ul class="split-menu-links" id="split-menu-links">
+                      <li class="split-menu-link active" data-action="home">Accueil</li>
+                      <li class="split-menu-link" data-action="rooms">Chambres</li>
+                      <li class="split-menu-link" data-action="leisure">Loisirs</li>
+                      <li class="split-menu-link" data-action="restaurant">Restaurant</li>
+                    </ul>
+                  </nav>
+                </div>
+
+                <button class="split-nav-burger" id="split-nav-burger" type="button" aria-label="Menu" aria-controls="split-menu-links">
+                  <i class="fas fa-bars"></i>
+                </button>
+              </header>
+
+              <div class="split-left-content">
+                <h1 class="hero-headline-main">CTA BIMYNS</h1>
+                <p class="hero-headline-sub">Écotourisme • Bénin</p>
+
+                <p class="hero-paragraph-desc">
+                  À Djérégbé, CTA BIMYNS est un domaine écotouristique où nature et confort se rejoignent. Hébergements de grand confort, loisirs — piscine à trois bassins et terrain de tennis — et restauration soignée pour une parenthèse authentique au Bénin.
+                </p>
+
+                <button class="btn-split-cta" id="btn-hero-reserve" type="button">
+                  RÉSERVER
+                </button>
+              </div>
+            </div>
+
+            <div class="split-right-panel">
+              <img
+                src="/assets/la-piscine-au-3-bassins.jpg"
+                alt="Piscine aux 3 bassins et paillotes du complexe CTA BIMYNS"
+                class="split-hero-img"
+                id="split-main-hero-img"
+              />
+              <div class="diagonal-shadow-line"></div>
+            </div>
+
+            <button class="split-price-badge" id="split-price-badge" type="button" title="Découvrir nos tarifs">
+              <span class="badge-label-small">À partir de</span>
+              <span class="badge-price-amount" id="badge-display-price">25 000F</span>
+            </button>
+
+            <div class="split-top-tools">
+              <div class="search-input-pill">
+                <input type="text" class="search-field" id="search-input" placeholder="Rechercher..." aria-label="Rechercher" />
+                <button class="search-icon-btn" id="search-btn" type="button" aria-label="Lancer la recherche">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+
+              <div class="currency-toggle">
+                <button class="curr-btn active" data-curr="XOF" type="button">FCFA</button>
+                <button class="curr-btn" data-curr="EUR" type="button">EUR</button>
+              </div>
+
+              <button class="btn-split-account btn-account-top" type="button">
+                <i class="fas fa-user"></i>
+                <span class="nav-account-label">Mon Compte</span>
+              </button>
+
+              <button class="btn-split-cart btn-cart-top is-hidden" type="button" title="Ouvrir mon panier" aria-hidden="true">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count-badge nav-cart-count">0</span>
+              </button>
+            </div>
+
+            <div class="diagonal-accent-stripe"></div>
+          </div>
+
+          <footer class="split-bottom-bar">
+            <div class="bottom-bar-cut"></div>
+
+            <div class="services-icons-group">
+              <button type="button" class="service-icon-item" data-action="restaurant">
+                <img class="service-img-icon" src="/assets/icons/restaurant.png" alt="" width="36" height="36">
+                <span class="service-label-text">Restaurant</span>
+              </button>
+
+              <button type="button" class="service-icon-item" data-action="rooms">
+                <img class="service-img-icon" src="/assets/icons/confort.png" alt="" width="36" height="36">
+                <span class="service-label-text">Grand confort</span>
+              </button>
+
+              <button type="button" class="service-icon-item" data-action="leisure">
+                <img class="service-img-icon" src="/assets/icons/piscine.png" alt="" width="36" height="36">
+                <span class="service-label-text">Piscine 3 bassins</span>
+              </button>
+
+              <button type="button" class="service-icon-item" data-action="leisure">
+                <img class="service-img-icon" src="/assets/icons/tennis.png" alt="" width="36" height="36">
+                <span class="service-label-text">Terrain de tennis</span>
+              </button>
+            </div>
+
+            <div class="social-icons-group">
+              <a href="https://instagram.com" target="_blank" rel="noopener" class="social-icon-btn" title="Instagram" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener" class="social-icon-btn" title="Facebook" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://wa.me/22966189044" target="_blank" rel="noopener" class="social-icon-btn" title="WhatsApp" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </footer>
+        </section>
+
+        <!-- À PROPOS -->
+        <section class="about-section" id="domaine">
+          <div class="section-shell about-grid">
+            <div class="about-media">
+              <img src="/assets/906078598.jpg" alt="Bâtiment principal CTA BIMYNS" />
+            </div>
+            <div class="about-copy">
+              <span class="section-eyebrow">Le Domaine</span>
+              <h2 class="section-title">Un Complexe Touristique & Attractif au Bénin</h2>
+              <p>
+                Idéalement situé à Djérégbé, le CTA BIMYNS est conçu pour s'intégrer parfaitement à son environnement. Notre architecture met en valeur les matériaux nobles et offre des espaces aérés.
+              </p>
+              <p>
+                Que vous souhaitiez organiser un séminaire d'entreprise, passer un week-end en famille ou simplement profiter de notre club sportif, nos installations répondront à toutes vos exigences avec une touche d'authenticité locale.
+              </p>
+              <button class="btn-outline-dark" type="button" data-action="gallery">Visiter la Galerie</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- HÉBERGEMENTS -->
+        <section class="rooms-section" id="chambres">
+          <div class="section-shell">
+            <div class="section-header">
+              <span class="section-eyebrow">Votre Repos</span>
+              <h2 class="section-title">Choisissez Votre Confort</h2>
+            </div>
+
+            <div class="rooms-grid">
+              <article class="room-card" data-action="rooms">
+                <div class="room-card-media">
+                  <img src="/assets/906078607.jpg" alt="Suite Safari Zèbre" />
+                  <span class="room-card-chip">Réserver</span>
+                </div>
+                <div class="room-card-body">
+                  <h3>Suite Safari Zèbre</h3>
+                  <p>Ambiance chaleureuse, boiseries et décoration aux motifs sauvages pour un dépaysement total.</p>
+                  <div class="room-card-meta">
+                    <span><i class="fas fa-wifi"></i></span>
+                    <span><i class="fas fa-tv"></i></span>
+                    <span><i class="fas fa-snowflake"></i></span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="room-card" data-action="rooms">
+                <div class="room-card-media">
+                  <img src="/assets/906078592.jpg" alt="Chambre Tribale" />
+                  <span class="room-card-chip">Réserver</span>
+                </div>
+                <div class="room-card-body">
+                  <h3>Chambre Tribale</h3>
+                  <p>Design épuré et confortable avec de subtiles touches géométriques locales.</p>
+                  <div class="room-card-meta">
+                    <span><i class="fas fa-wifi"></i></span>
+                    <span><i class="fas fa-tv"></i></span>
+                    <span><i class="fas fa-snowflake"></i></span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="room-card" data-action="rooms">
+                <div class="room-card-media">
+                  <img src="/assets/notre-chambre.jpg" alt="Chambre Standard" />
+                  <span class="room-card-chip">Réserver</span>
+                </div>
+                <div class="room-card-body">
+                  <h3>Chambre Standard</h3>
+                  <p>Confort classique, tête de lit tressée et espace bureau pour se détendre ou travailler.</p>
+                  <div class="room-card-meta">
+                    <span><i class="fas fa-wifi"></i></span>
+                    <span><i class="fas fa-tv"></i></span>
+                    <span><i class="fas fa-snowflake"></i></span>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="section-cta-row">
+              <button class="btn-solid-dark" type="button" data-action="rooms">Voir toutes les chambres</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- LOISIRS -->
+        <section class="leisure-section" id="loisirs">
+          <div class="leisure-panel">
+            <img src="/assets/membre-du-personnel.jpg" alt="Club aquatique" class="leisure-bg" />
+            <div class="leisure-overlay">
+              <h3>Club Aquatique</h3>
+              <p>Trois bassins en cascade, transats et bar intégré.</p>
+              <div class="leisure-actions">
+                <button class="btn-solid-light" type="button" data-action="leisure">Pass Journée</button>
+                <button class="btn-outline-light" type="button" data-action="leisure">S'abonner</button>
+              </div>
+            </div>
+          </div>
+          <div class="leisure-panel leisure-panel-dark">
+            <img src="/assets/bimyns-hotels-resorts.jpg" alt="Tennis Club" class="leisure-bg" />
+            <div class="leisure-overlay">
+              <h3>Tennis Club</h3>
+              <p>Réservez votre court équipé pour un match entre amis.</p>
+              <div class="leisure-actions">
+                <button class="btn-accent" type="button" data-action="leisure">Louer un Court</button>
+                <button class="btn-outline-light" type="button" data-action="leisure">S'abonner</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RESTAURANT -->
+        <section class="restaurant-section" id="restaurant">
+          <img src="/assets/le-lac-artificel-apres.jpg" alt="Restaurant sur l'eau" class="restaurant-bg" />
+          <div class="restaurant-content">
+            <span class="section-eyebrow section-eyebrow-light">Gastronomie</span>
+            <h2 class="section-title section-title-light">Saveurs Locales & Internationales</h2>
+            <p>
+              Dégustez nos spécialités sous notre paillote sur l'eau, faites-vous servir au bord de la piscine, ou commandez directement depuis votre chambre ou la ville.
+            </p>
+            <button class="btn-solid-green" type="button" data-action="restaurant">
+              <i class="fas fa-utensils"></i>
+              CONSULTER LE MENU ET COMMANDER
+            </button>
+          </div>
+        </section>
+
+        <!-- GALERIE TEASER -->
+        <section class="gallery-teaser" id="galerie">
+          <div class="section-shell">
+            <div class="section-header">
+              <span class="section-eyebrow">Instants</span>
+              <h2 class="section-title">Le Domaine en Images</h2>
+            </div>
+            <div class="gallery-strip">
+              <img src="/assets/906078583.jpg" alt="Crépuscule sur le lac" />
+              <img src="/assets/906078633.jpg" alt="Plage des bassins" />
+              <img src="/assets/906078568.jpg" alt="Table au bord de l'eau" />
+              <img src="/assets/906078611.jpg" alt="Jardins tropicaux" />
+            </div>
+            <div class="section-cta-row">
+              <button class="btn-outline-dark" type="button" data-action="gallery">Ouvrir la galerie (22 photos)</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+          <div class="section-shell footer-grid">
+            <div>
+              <img src="/assets/logo-transparent.png" alt="CTA BIMYNS" class="footer-logo" />
+              <p>Complexe Touristique et Attractif Bimyns. L'excellence au naturel au cœur du Bénin.</p>
+            </div>
+            <div>
+              <h4>Liens Rapides</h4>
+              <ul>
+                <li><button type="button" data-action="erpnext">Espace Client ERP</button></li>
+                <li><button type="button" data-action="rooms">Réserver une Chambre</button></li>
+                <li><button type="button" data-action="leisure">Abonnements Club</button></li>
+                <li><button type="button" data-action="restaurant">Menu Livraison</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4>Contact</h4>
+              <ul class="footer-contact">
+                <li><i class="fas fa-map-marker-alt"></i> Quartier Wèkè, Djérégbé (Ouémé)</li>
+                <li><i class="fas fa-phone"></i> (+229) 01 66 99 05 05</li>
+                <li><i class="fas fa-envelope"></i> contacts@ctabimyns.com</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Paiements Sécurisés</h4>
+              <p class="footer-pay-note">Payez en ligne ou via Mobile Money directement depuis notre interface.</p>
+              <div class="footer-pay-icons">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <span class="pay-chip">MTN</span>
+                <span class="pay-chip">MOOV</span>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copy">&copy; 2026 CTA BIMYNS. Tous droits réservés.</div>
+        </footer>
+      </main>
+
+      <!-- MODULES DE RÉSERVATION -->
+      <div id="rooms-modal-container"></div>
+      <div id="leisure-modal-container"></div>
+      <div id="restaurant-modal-container"></div>
+      <div id="gallery-modal-container"></div>
+      <div id="cart-drawer-container"></div>
+      <div id="checkout-modal-container"></div>
+      <div id="account-modal-container"></div>
+      <div id="erp-inspector-container"></div>
+      <div id="qr-scanner-container"></div>
+      <div id="toast-container"></div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
