@@ -1,0 +1,21 @@
+# Skill copies drown the app graph
+.agents/
+.cursor/skills/
+
+# Raster/vector assets — no AST, skip vision pass
+*.jpg
+*.jpeg
+*.png
+*.svg
+*.eps
+*.ai
+
+# Duplicate photo trees — public/assets is the served copy
+images/
+public/images/
+
+# Design source, not product code
+template/
+
+# Silent drone clip — no speech for Whisper
+*.mp4

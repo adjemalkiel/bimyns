@@ -19,6 +19,7 @@ class CTAApp {
 
     this.initComponents();
     this.bindEvents();
+    this.bindHeroVideo();
     this.bindStickyHeader();
     this.bindGlobalState();
 
@@ -54,6 +55,30 @@ class CTAApp {
     store.closeModal();
     this.setActiveNav('home');
     document.getElementById('accueil')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  bindHeroVideo() {
+    const hero = this.heroEl;
+    const video = document.getElementById('split-hero-video');
+    if (!hero || !video || !window.matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) return;
+
+    video.volume = 0.85;
+    document.addEventListener('pointerdown', () => { video.muted = false; }, { once: true });
+
+    const setOn = (on) => {
+      hero.classList.toggle('is-hero-video', on);
+      if (!on) { video.pause(); return; }
+      video.muted = false;
+      video.play().catch(() => {
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+    };
+
+    hero.addEventListener('pointerover', (e) => {
+      setOn(!e.target.closest('.split-left-panel'));
+    });
+    hero.addEventListener('pointerleave', () => setOn(false));
   }
 
   bindEvents() {
