@@ -16,7 +16,7 @@ export class RoomsModal {
 
   render() {
     this.container.innerHTML = `
-      <div class="modal-overlay" id="rooms-modal-overlay">
+      <div class="modal-overlay rooms-modal" id="rooms-modal-overlay">
         <div class="modal-card">
           <!-- En-tête -->
           <div class="modal-header">
@@ -80,26 +80,27 @@ export class RoomsModal {
           <h3 class="room-title">${room.name}</h3>
           
           <div class="room-meta">
-            <span>📐 ${room.size}</span>
-            <span>🛏️ ${room.bed}</span>
-            <span>👥 ${room.capacity}</span>
+            <span><i class="fas fa-ruler-combined" aria-hidden="true"></i> ${room.size}</span>
+            <span><i class="fas fa-bed" aria-hidden="true"></i> ${room.bed}</span>
+            <span><i class="fas fa-user-group" aria-hidden="true"></i> ${room.capacity}</span>
           </div>
 
           <p class="room-desc">${room.description}</p>
 
           <div class="room-amenities">
-            ${room.amenities.map(a => `<span class="amenity-pill">${a}</span>`).join('')}
+            ${room.amenities.slice(0, 3).map(a => `<span class="amenity-pill">${a}</span>`).join('')}
+            ${room.amenities.length > 3 ? `<span class="amenity-pill amenity-more">+${room.amenities.length - 3}</span>` : ''}
           </div>
 
           <!-- Formulaire de Réservation Directe -->
           <div class="room-booking-form">
             <div class="booking-dates-row">
               <div class="input-field-group">
-                <label class="input-label">Arrivée (Check-in)</label>
+                <label class="input-label">Arrivée</label>
                 <input type="date" class="form-input room-in-date" value="${checkInStr}" min="${today.toISOString().split('T')[0]}" />
               </div>
               <div class="input-field-group">
-                <label class="input-label">Départ (Check-out)</label>
+                <label class="input-label">Départ</label>
                 <input type="date" class="form-input room-out-date" value="${checkOutStr}" />
               </div>
             </div>
@@ -127,8 +128,8 @@ export class RoomsModal {
                 <span class="room-price-val">${price}</span>
                 <span class="room-price-sub">/ nuitée</span>
               </div>
-              <button class="btn btn-primary btn-book-room" data-room-id="${room.id}">
-                <span>✨ Réserver le séjour</span>
+              <button class="btn btn-modal-book btn-book-room" data-room-id="${room.id}">
+                Réserver
               </button>
             </div>
           </div>
@@ -195,7 +196,15 @@ export class RoomsModal {
             checkOut: outDate,
             nights,
             guests,
-            board: plan
+            board: plan,
+            // Kamra Meal Plan codes: bb→CP (default), hb→MAP (+15 000)
+            mealPlan: plan === 'hb' ? 'MAP' : 'CP',
+            kamraRoomType: `CTA BIMYNS-${({
+              'suite-safari-zebre': 'SSZ',
+              'chambre-tribale': 'TRI',
+              'chambre-standard': 'STD',
+              'cabine-eco-bungalow': 'ECO',
+            })[room.id] || 'STD'}`,
           }
         });
 

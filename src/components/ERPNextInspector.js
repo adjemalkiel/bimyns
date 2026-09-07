@@ -49,8 +49,13 @@ export class ERPNextInspector {
                 </div>
 
                 <div class="input-field-group">
-                  <label class="input-label">Doctype Cible</label>
+                  <label class="input-label">Doctype Cible (resto/loisirs)</label>
                   <input type="text" class="form-input" id="cfg-erp-doctype" value="${store.state.erpConfig.doctype}" readonly />
+                </div>
+
+                <div class="input-field-group">
+                  <label class="input-label">Propriété Kamra (chambres)</label>
+                  <input type="text" class="form-input" id="cfg-kamra-property" value="${store.state.erpConfig.kamraProperty || 'CTA BIMYNS'}" />
                 </div>
 
                 <!-- Mode Mock / Réel -->
@@ -78,8 +83,8 @@ export class ERPNextInspector {
               <div class="erp-payload-panel">
                 <div class="code-viewer-header">
                   <div>
-                    <strong style="font-size: 0.88rem; color: var(--cta-green-dark);">Dernier Payload JSON compilé pour ERPNext</strong>
-                    <span style="font-size: 0.72rem; color: #778877; display: block;">Endpoint : POST /api/resource/Sales Order</span>
+                    <strong style="font-size: 0.88rem; color: var(--cta-green-dark);">Dernier payload (Kamra book / Sales Order)</strong>
+                    <span style="font-size: 0.72rem; color: #778877; display: block;">Chambres : POST /api/method/kamra.public_api.book · Autre : Sales Order</span>
                   </div>
                   <button class="btn btn-secondary btn-sm" id="btn-copy-json" style="padding: 4px 10px; font-size: 0.75rem;">
                     📋 Copier le JSON
@@ -115,10 +120,11 @@ export class ERPNextInspector {
       const baseUrl = this.container.querySelector('#cfg-erp-url').value;
       const apiKey = this.container.querySelector('#cfg-erp-key').value;
       const apiSecret = this.container.querySelector('#cfg-erp-secret').value;
+      const kamraProperty = this.container.querySelector('#cfg-kamra-property')?.value || 'CTA BIMYNS';
       const autoSendMock = this.container.querySelector('#cfg-erp-mock-toggle').checked;
 
-      store.updateErpConfig({ baseUrl, apiKey, apiSecret, autoSendMock });
-      store.addNotification('Configuration ERPNext enregistrée !', 'success');
+      store.updateErpConfig({ baseUrl, apiKey, apiSecret, kamraProperty, autoSendMock });
+      store.addNotification('Configuration Kamra/ERPNext enregistrée !', 'success');
       store.logErpMessage('Configuration API mise à jour par l’utilisateur', 'info');
     });
 

@@ -224,7 +224,7 @@ export const LEISURE_ACTIVITIES = {
 };
 
 export const RESTAURANT_MENU = [
-  // Entrées
+  // Entrées & Tapas
   {
     id: 'entree-carpaccio',
     category: 'Entrées',
@@ -232,7 +232,7 @@ export const RESTAURANT_MENU = [
     description: 'Fines lamelles de poisson frais mariné au combawa, baies roses de Nikki et filet d’huile d’olive vierge.',
     priceXOF: 4500,
     priceEUR: 6.9,
-    image: '/assets/le-lac-artificel-apres.jpg',
+    image: '/assets/menu/entree-carpaccio.jpg?v=1',
     badge: 'Frais & Léger',
     prepTime: '15 min'
   },
@@ -240,10 +240,10 @@ export const RESTAURANT_MENU = [
     id: 'entree-pastels',
     category: 'Entrées',
     name: 'Pastels Dorés & Sauce Tomate Piment Doux',
-    description: 'Chausson croustillant farci au mérou et légumes croquants, servi avec sa sauce salsa maison.',
+    description: 'Chaussons croustillants farcis au poisson du lac et légumes, servis avec salsa maison.',
     priceXOF: 3500,
     priceEUR: 5.3,
-    image: '/assets/906078589.jpg',
+    image: '/assets/menu/entree-pastels.jpg?v=1',
     badge: 'Croustillant',
     prepTime: '15 min'
   },
@@ -251,45 +251,122 @@ export const RESTAURANT_MENU = [
     id: 'entree-salade-exotique',
     category: 'Entrées',
     name: 'Salade Royale d’Avocat & Crevettes d’Allada',
-    description: 'Avocats mûrs à point, crevettes sautées à l’ail des ours, mangue fraîche et vinaigrette passion.',
+    description: 'Avocats mûrs à point, crevettes sautées à l’ail, mangue fraîche et vinaigrette passion.',
     priceXOF: 5000,
     priceEUR: 7.6,
-    image: '/assets/906078603.jpg',
+    image: '/assets/menu/entree-salade-exotique.jpg?v=1',
     badge: 'Signature',
     prepTime: '15 min'
   },
+  {
+    id: 'entree-alloco',
+    category: 'Entrées',
+    name: 'Alloco Croustillant & Sauce Piment Douce',
+    description: 'Bananes plantain frites dorées, oignons caramélisés et sauce pimentée maison — le classique du bord du lac.',
+    priceXOF: 3000,
+    priceEUR: 4.6,
+    image: '/assets/menu/entree-alloco.jpg?v=1',
+    badge: 'Tapas',
+    prepTime: '12 min'
+  },
+  {
+    id: 'entree-accras',
+    category: 'Entrées',
+    name: 'Accras de Poisson du Lac',
+    description: 'Beignets croustillants de capitaine et herbes fraîches, servis avec une sauce tomate pimentée.',
+    priceXOF: 4000,
+    priceEUR: 6.1,
+    image: '/assets/menu/entree-accras.jpg?v=1',
+    badge: 'Maison',
+    prepTime: '15 min'
+  },
+  {
+    id: 'entree-akara',
+    category: 'Entrées',
+    name: 'Akaras (Beignets de Haricot) & Sauce Gombo',
+    description: 'Beignets de niébé frits, croustillants dehors et fondants dedans, avec une petite sauce gombo verte.',
+    priceXOF: 2500,
+    priceEUR: 3.8,
+    image: '/assets/menu/entree-akara.jpg?v=1',
+    badge: 'Street Food',
+    prepTime: '12 min'
+  },
 
-  // Plats de Résistance
+  // Plats & Grillades
   {
     id: 'plat-poisson-braise',
     category: 'Plats',
     name: 'Poisson Capitaine Braisé au Feu de Bois',
-    description: 'Pièce entière de poisson braisée aux épices secrètes du chef, servie avec alloco doré (bananes plantains) et piment vert écrasé.',
+    description: 'Pièce entière braisée aux épices du chef, servie avec alloco doré et piment vert écrasé.',
     priceXOF: 9500,
     priceEUR: 14.5,
-    image: '/assets/le-lac-artificel-apres.jpg',
+    image: '/assets/menu/plat-poisson-braise.jpg?v=1',
     badge: 'Spécialité CTA',
     prepTime: '30 min'
   },
   {
+    id: 'plat-tilapia-braise',
+    category: 'Plats',
+    name: 'Tilapia Braisé & Attiéké Parfumé',
+    description: 'Tilapia entier grillé au feu de bois, attiéké manioc, oignons crus et sauce claire pimentée.',
+    priceXOF: 8500,
+    priceEUR: 13.0,
+    image: '/assets/menu/plat-tilapia-braise.jpg?v=1',
+    badge: 'Du Lac',
+    prepTime: '28 min'
+  },
+  {
     id: 'plat-poulet-bicyclette',
     category: 'Plats',
-    name: 'Poulet Bicyclette Cuisiné en Sauce d’Arachide & Igname Pilée',
-    description: 'Poulet fermier d’élevage local fondant et savoureux, accompagné de son igname pilée traditionnelle (Iyan) ou de riz au gras parfumé.',
+    name: 'Poulet Bicyclette Sauce Arachide & Igname Pilée',
+    description: 'Poulet fermier fondant en sauce d’arachide, igname pilée (iyan) ou riz au gras au choix.',
     priceXOF: 8000,
     priceEUR: 12.2,
-    image: '/assets/906078568.jpg',
+    image: '/assets/menu/plat-poulet-bicyclette.jpg?v=1',
     badge: 'Terroir Béninois',
     prepTime: '25 min'
+  },
+  {
+    id: 'plat-amiwo-poisson',
+    category: 'Plats',
+    name: 'Amiwo Rouge & Poisson Fumé du Lac',
+    description: 'Pâte de maïs à la sauce tomate rouge pimentée, poisson fumé local et légumes du jardin.',
+    priceXOF: 7000,
+    priceEUR: 10.7,
+    image: '/assets/menu/plat-amiwo-poisson.jpg?v=1',
+    badge: 'Classique',
+    prepTime: '25 min'
+  },
+  {
+    id: 'plat-yassa-poulet',
+    category: 'Plats',
+    name: 'Yassa Poulet Citronné & Riz Blanc',
+    description: 'Poulet mariné citron-oignon, mijoté à la moutarde et aux épices, servi avec riz parfumé.',
+    priceXOF: 7500,
+    priceEUR: 11.4,
+    image: '/assets/menu/plat-yassa-poulet.jpg?v=1',
+    badge: 'Ouest-Africain',
+    prepTime: '30 min'
   },
   {
     id: 'plat-brochettes-filet',
     category: 'Plats',
     name: 'Brochettes Géantes de Filet de Bœuf Mariné',
-    description: 'Tendre filet de bœuf découpé en cubes généreux, oignons rouges et poivrons caramélisés, frites de patates douces.',
+    description: 'Filet de bœuf en cubes généreux, oignons et poivrons caramélisés, frites de patates douces.',
     priceXOF: 7500,
     priceEUR: 11.4,
-    image: '/assets/membre-du-personnel.jpg',
+    image: '/assets/menu/plat-brochettes-filet.jpg?v=1',
+    badge: 'Grillade',
+    prepTime: '20 min'
+  },
+  {
+    id: 'plat-crevettes-grillees',
+    category: 'Plats',
+    name: 'Crevettes Grillées au Beurre d’Ail',
+    description: 'Grosses crevettes saisies au feu, beurre d’ail et herbes, accompagnées d’attiéké ou de frites d’igname.',
+    priceXOF: 10000,
+    priceEUR: 15.2,
+    image: '/assets/menu/plat-crevettes-grillees.jpg?v=1',
     badge: 'Grillade',
     prepTime: '20 min'
   },
@@ -297,10 +374,10 @@ export const RESTAURANT_MENU = [
     id: 'plat-club-sandwich-resort',
     category: 'Plats',
     name: 'Club Sandwich CTA BIMYNS & Frites',
-    description: 'Pain toasté artisanal, filet de dinde fumée, œuf au plat, tomate fraîche, cheddar et mayonnaise légère aux herbes.',
+    description: 'Pain toasté, dinde fumée, œuf au plat, tomate, cheddar et mayo aux herbes — idéal au bord de la piscine.',
     priceXOF: 6000,
     priceEUR: 9.1,
-    image: '/assets/906078574.jpg',
+    image: '/assets/menu/plat-club-sandwich-resort.jpg?v=1',
     badge: 'Snack Piscine',
     prepTime: '15 min'
   },
@@ -310,32 +387,65 @@ export const RESTAURANT_MENU = [
     id: 'boisson-baobab-colada',
     category: 'Boissons',
     name: 'Cocktail Signature « Baobab Colada »',
-    description: 'Nectar de fruit de baobab onctueux, lait de coco crémeux, jus d’ananas pressé d’Allada et trait de rhum brun vieux (disponible sans alcool).',
+    description: 'Nectar de baobab, lait de coco, ananas d’Allada et trait de rhum brun (aussi sans alcool).',
     priceXOF: 4500,
     priceEUR: 6.9,
-    image: '/assets/membre-du-personnel.jpg',
+    image: '/assets/menu/boisson-baobab-colada.jpg?v=1',
     badge: 'Cocktail Star',
+    prepTime: '5 min'
+  },
+  {
+    id: 'boisson-sodabi-sunset',
+    category: 'Boissons',
+    name: 'Cocktail « Sodabi Sunset »',
+    description: 'Sodabi artisanal, jus d’orange pressé, passion et touche de gingembre — le crépuscule au pavillon.',
+    priceXOF: 5000,
+    priceEUR: 7.6,
+    image: '/assets/menu/boisson-sodabi-sunset.jpg?v=1',
+    badge: 'Local',
     prepTime: '5 min'
   },
   {
     id: 'boisson-bissap-glace',
     category: 'Boissons',
     name: 'Jus de Bissap Royal à la Menthe Fraîche',
-    description: 'Infusion fraîche de fleurs d’hibiscus cueillies à la main, feuilles de menthe du jardin potager et pointe de vanille.',
+    description: 'Infusion d’hibiscus, menthe du jardin et pointe de vanille, servie bien glacée.',
     priceXOF: 2500,
     priceEUR: 3.8,
-    image: '/assets/la-piscine-au-3-bassins.jpg',
+    image: '/assets/menu/boisson-bissap-glace.jpg?v=1',
     badge: 'Frais & Artisanal',
     prepTime: '3 min'
+  },
+  {
+    id: 'boisson-gingembre',
+    category: 'Boissons',
+    name: 'Jus de Gingembre Frais Pressé',
+    description: 'Racine de gingembre pressée, citron vert et miel local — tonique et rafraîchissant.',
+    priceXOF: 2000,
+    priceEUR: 3.0,
+    image: '/assets/menu/boisson-gingembre.jpg?v=1',
+    badge: 'Tonique',
+    prepTime: '3 min'
+  },
+  {
+    id: 'boisson-ananas-passion',
+    category: 'Boissons',
+    name: 'Mocktail Ananas-Passion',
+    description: 'Ananas frais, fruit de la passion et soda maison, sans alcool — parfait après la baignade.',
+    priceXOF: 3000,
+    priceEUR: 4.6,
+    image: '/assets/menu/boisson-ananas-passion.jpg?v=1',
+    badge: 'Sans Alcool',
+    prepTime: '4 min'
   },
   {
     id: 'boisson-biere-beninoise',
     category: 'Boissons',
     name: 'Bière La Béninoise Fraîche (65cl)',
-    description: 'La bière blonde nationale fraîchement servie au seau à glace.',
+    description: 'La bière blonde nationale, servie glacée au seau.',
     priceXOF: 2000,
     priceEUR: 3.0,
-    image: '/assets/membre-du-personnel.jpg',
+    image: '/assets/menu/boisson-biere-beninoise.jpg?v=1',
     badge: 'Glacée',
     prepTime: '3 min'
   },
@@ -343,10 +453,10 @@ export const RESTAURANT_MENU = [
     id: 'boisson-champagne-coupe',
     category: 'Boissons',
     name: 'Coupe de Champagne Brut Réserve',
-    description: 'Pour célébrer les moments magiques au crépuscule sur le pavillon sur l’eau.',
+    description: 'Pour célébrer au crépuscule sur le pavillon sur l’eau.',
     priceXOF: 9000,
     priceEUR: 13.7,
-    image: '/assets/906078583.jpg',
+    image: '/assets/menu/boisson-champagne-coupe.jpg?v=1',
     badge: 'Prestige',
     prepTime: '3 min'
   }

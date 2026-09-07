@@ -10,6 +10,17 @@ class AppStore {
     const savedUser = localStorage.getItem('cta_user');
     const savedTime = localStorage.getItem('cta_time_of_day');
     const savedErpConfig = localStorage.getItem('cta_erp_config');
+    let erpConfig = savedErpConfig ? JSON.parse(savedErpConfig) : null;
+    // Migrate old mock/remote defaults → local Kamra stack
+    if (erpConfig && (erpConfig.baseUrl || '').includes('erp.bimyns.com')) {
+      erpConfig = {
+        ...erpConfig,
+        baseUrl: 'http://localhost:8080',
+        kamraProperty: erpConfig.kamraProperty || 'CTA BIMYNS',
+        autoSendMock: false,
+      };
+      localStorage.setItem('cta_erp_config', JSON.stringify(erpConfig));
+    }
 
     this.state = {
       user: savedUser ? JSON.parse(savedUser) : MOCK_USERS[0], // Connecté par défaut avec Dr. Kofi Mensah (Résident)
@@ -22,16 +33,18 @@ class AppStore {
       selectedDeliveryZone: 'Transat Piscine - Zone Nord (Grand Bassin)',
       activeZoneId: null,
       notifications: [],
-      erpConfig: savedErpConfig ? JSON.parse(savedErpConfig) : {
-        baseUrl: 'https://erp.bimyns.com',
-        apiKey: '7a912e8b0fa31cd',
-        apiSecret: 'f820c7491d90e21',
+      erpConfig: erpConfig || {
+        baseUrl: 'http://localhost:8080',
+        apiKey: '',
+        apiSecret: '',
         doctype: 'Sales Order',
-        autoSendMock: true,
+        // Kamra PMS property for room bookings (public_api.book)
+        kamraProperty: 'CTA BIMYNS',
+        autoSendMock: false,
         lastPayload: null,
         lastResponse: null,
         logs: [
-          { time: new Date().toLocaleTimeString(), type: 'info', message: 'Connecteur ERPNext initialisé (Mode Hybride Mock/REST)' }
+          { time: new Date().toLocaleTimeString(), type: 'info', message: 'Connecteur Kamra/ERPNext initialisé (http://localhost:8080)' }
         ]
       }
     };

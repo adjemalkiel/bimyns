@@ -1,6 +1,7 @@
 // Modale Tunnel de Commande & Paiement Multimodal (Checkout)
 import { store } from '../state/store.js';
 import { ERPNextService } from '../state/erpnext.js';
+import { KamraService } from '../state/kamra.js';
 
 export class CheckoutModal {
   constructor(container) {
@@ -18,17 +19,15 @@ export class CheckoutModal {
   render() {
     this.container.innerHTML = `
       <div class="modal-overlay" id="checkout-modal-overlay">
-        <div class="modal-card" style="max-width: 820px;">
-          <!-- En-tête -->
+        <div class="modal-card checkout-card">
           <div class="modal-header">
             <div class="modal-title-group">
               <h2 class="modal-title">Finalisation de la Commande</h2>
               <span class="modal-subtitle">Paiement sécurisé & transmission instantanée à l'ERPNext</span>
             </div>
-            <button class="modal-close-btn" id="checkout-close-btn" title="Fermer">✕</button>
+            <button class="modal-close-btn" id="checkout-close-btn" title="Fermer" aria-label="Fermer">✕</button>
           </div>
 
-          <!-- Corps du Checkout -->
           <div class="modal-body" id="checkout-modal-body">
             <!-- Rempli par renderCheckoutContent() -->
           </div>
@@ -48,37 +47,30 @@ export class CheckoutModal {
     const totals = store.getCartTotals();
     const finalPriceStr = currency === 'EUR' ? `${totals.finalEUR} €` : `${totals.finalXOF.toLocaleString('fr-FR')} FCFA`;
 
-    // Si la commande vient d'être passée avec succès
     if (this.orderResult) {
       body.innerHTML = `
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px 20px; gap: 16px;">
-          <div style="width: 72px; height: 72px; border-radius: 50%; background: #e8f5e9; color: #2e7d32; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 3px solid #81c784;">
-            ✓
+        <div class="checkout-success">
+          <div class="checkout-success-icon" aria-hidden="true">
+            <i class="fas fa-check"></i>
           </div>
 
-          <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--cta-green-dark);">
-            Commande Validée & Enregistrée !
-          </h3>
+          <h3 class="checkout-success-title">Commande Validée & Enregistrée !</h3>
 
-          <div style="background: var(--cta-sand); border: 1.5px solid var(--cta-gold); padding: 14px 24px; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 4px;">
-            <span style="font-size: 0.8rem; color: #556658;">Numéro de référence ERPNext :</span>
-            <strong style="font-size: 1.25rem; color: var(--cta-green-dark); letter-spacing: 1px;">
-              ${this.orderResult.name || 'SO-CTA-2026-CONFIRMED'}
-            </strong>
-            <span style="font-size: 0.76rem; color: var(--cta-green-light); font-weight: 700;">
-              Statut : Synchronisé en direct avec ERPNext
-            </span>
+          <div class="checkout-success-ref">
+            <span class="checkout-summary-label">Numéro de référence ERPNext :</span>
+            <strong class="checkout-success-code">${this.orderResult.name || 'SO-CTA-2026-CONFIRMED'}</strong>
+            <span class="checkout-success-status">Statut : Synchronisé en direct avec ERPNext</span>
           </div>
 
-          <p style="font-size: 0.88rem; color: #445548; max-width: 500px; line-height: 1.5;">
+          <p class="checkout-success-copy">
             Votre demande a été transmise aux équipes du complexe CTA BIMYNS. Une notification a été envoyée et la préparation de vos prestations est en cours.
           </p>
 
-          <div style="display: flex; gap: 12px; margin-top: 10px;">
+          <div class="checkout-success-actions">
             <button class="btn btn-secondary" id="btn-inspect-order-payload">
-              <span>🔍 Inspecter le payload ERPNext</span>
+              <span><i class="fas fa-magnifying-glass" aria-hidden="true"></i> Inspecter le payload ERPNext</span>
             </button>
-            <button class="btn btn-primary" id="btn-finish-checkout">
+            <button class="btn btn-primary btn-gold" id="btn-finish-checkout">
               <span>Retour à l'accueil</span>
             </button>
           </div>
@@ -88,31 +80,27 @@ export class CheckoutModal {
       return;
     }
 
-    // Récupération de la méthode de livraison sélectionnée dans le panier
     const foodItem = cart.find(i => i.category === 'restaurant');
     const deliverySummary = foodItem ? foodItem.details : (user && user.isResident ? `Chambre ${user.roomNumber}` : 'Sur place au complexe');
 
     body.innerHTML = `
-      <div style="display: flex; flex-direction: column; gap: 20px;">
-        <!-- 1. Récapitulatif Rapide & Destinataire -->
-        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--cta-sand); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--cta-sand-border);">
+      <div class="checkout-stack">
+        <div class="checkout-summary">
           <div>
-            <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: #667766;">Destinataire & Livraison :</div>
-            <div style="font-size: 0.95rem; font-weight: 700; color: var(--cta-green-dark);">
-              ${user ? user.name : 'Client Invité'} • <span style="color: var(--cta-gold);">${deliverySummary}</span>
+            <div class="checkout-summary-label">Destinataire & Livraison :</div>
+            <div class="checkout-summary-value">
+              ${user ? user.name : 'Client Invité'} • <span class="checkout-delivery">${deliverySummary}</span>
             </div>
           </div>
-          <div style="text-align: right;">
-            <div style="font-size: 0.78rem; color: #667766;">Total à régler :</div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: var(--cta-green-primary);">${finalPriceStr}</div>
+          <div class="checkout-total">
+            <div class="checkout-summary-label">Total à régler :</div>
+            <div class="checkout-total-amount">${finalPriceStr}</div>
           </div>
         </div>
 
-        <!-- 2. Choix de la Catégorie de Paiement -->
-        <div>
-          <label class="input-label" style="margin-bottom: 8px; display: block;">Sélectionnez votre moyen de paiement :</label>
+        <div class="checkout-section">
+          <label class="input-label">Sélectionnez votre moyen de paiement :</label>
           <div class="payment-methods-grid">
-            <!-- A. Mobile Money -->
             <div class="payment-method-card ${this.paymentCategory === 'mobile_money' ? 'active' : ''}" data-cat="mobile_money">
               <div class="payment-logo-row">
                 <span class="mobile-money-pill pill-mtn">MTN</span>
@@ -123,21 +111,19 @@ export class CheckoutModal {
               <span class="payment-method-desc">Paiement instantané via Push USSD</span>
             </div>
 
-            <!-- B. Paiement en Ligne CB -->
             <div class="payment-method-card ${this.paymentCategory === 'online_card' ? 'active' : ''}" data-cat="online_card">
               <div class="payment-logo-row">
-                <span style="font-size: 1.1rem; font-weight: 900; color: #1a1f71;">VISA</span>
-                <span style="font-size: 1.1rem; font-weight: 900; color: #eb001b;">MC</span>
+                <span class="card-brand card-visa">VISA</span>
+                <span class="card-brand card-mc">MC</span>
               </div>
               <span class="payment-method-name">Carte Bancaire</span>
               <span class="payment-method-desc">Visa, Mastercard internationale</span>
             </div>
 
-            <!-- C. Paiement Différé -->
             <div class="payment-method-card ${this.paymentCategory === 'deferred' ? 'active' : ''}" data-cat="deferred">
-              <div class="payment-logo-row">
-                <span style="font-size: 1.2rem;">🛎️</span>
-                <span style="font-size: 1.2rem;">💵</span>
+              <div class="payment-logo-row payment-logo-icons">
+                <i class="fas fa-bell-concierge" aria-hidden="true"></i>
+                <i class="fas fa-money-bill-wave" aria-hidden="true"></i>
               </div>
               <span class="payment-method-name">Paiement Différé</span>
               <span class="payment-method-desc">Note de chambre ou à la livraison</span>
@@ -145,20 +131,19 @@ export class CheckoutModal {
           </div>
         </div>
 
-        <!-- 3. Formulaire Spécifique au Mode Sélectionné -->
         <div class="payment-input-box" id="payment-specific-form">
           ${this.renderSpecificPaymentForm()}
         </div>
 
-        <!-- Instructions supplémentaires -->
         <div class="input-field-group">
           <label class="input-label">Remarques ou instructions spéciales pour le personnel (Optionnel)</label>
           <input type="text" class="form-input" id="checkout-notes" placeholder="Ex: Serviettes supplémentaires, sans piment, etc." />
         </div>
 
-        <!-- Bouton de Soumission -->
-        <button class="btn btn-primary btn-gold" id="btn-submit-order" style="padding: 16px; font-size: 1.05rem; width: 100%;" ${this.isSubmitting ? 'disabled' : ''}>
-          <span>${this.isSubmitting ? '⏳ Envoi vers ERPNext...' : `Valider et Payer (${finalPriceStr})`}</span>
+        <button class="btn btn-primary btn-gold" id="btn-submit-order" ${this.isSubmitting ? 'disabled' : ''}>
+          <span>${this.isSubmitting
+            ? `<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Envoi vers ERPNext...`
+            : `Valider et Payer (${finalPriceStr})`}</span>
         </button>
       </div>
     `;
@@ -171,32 +156,35 @@ export class CheckoutModal {
 
     if (this.paymentCategory === 'mobile_money') {
       return `
-        <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="checkout-payment-form">
           <label class="input-label">Choisissez votre opérateur Mobile Money :</label>
-          <div style="display: flex; gap: 10px;">
-            <button type="button" class="btn btn-secondary btn-sm provider-btn ${this.momoProvider === 'mtn_momo' ? 'active' : ''}" data-provider="mtn_momo" style="border-color: #ffcc00; font-weight: 700;">
-              🟡 MTN MoMo Bénin
+          <div class="provider-row">
+            <button type="button" class="provider-btn ${this.momoProvider === 'mtn_momo' ? 'active' : ''}" data-provider="mtn_momo">
+              <span class="provider-dot provider-dot-mtn" aria-hidden="true"></span> MTN MoMo Bénin
             </button>
-            <button type="button" class="btn btn-secondary btn-sm provider-btn ${this.momoProvider === 'moov' ? 'active' : ''}" data-provider="moov" style="border-color: #0066b2; font-weight: 700;">
-              🔵 Moov Money
+            <button type="button" class="provider-btn ${this.momoProvider === 'moov' ? 'active' : ''}" data-provider="moov">
+              <span class="provider-dot provider-dot-moov" aria-hidden="true"></span> Moov Money
             </button>
-            <button type="button" class="btn btn-secondary btn-sm provider-btn ${this.momoProvider === 'celtiis' ? 'active' : ''}" data-provider="celtiis" style="border-color: #008751; font-weight: 700;">
-              🟢 Celtiis Cash
+            <button type="button" class="provider-btn ${this.momoProvider === 'celtiis' ? 'active' : ''}" data-provider="celtiis">
+              <span class="provider-dot provider-dot-celtiis" aria-hidden="true"></span> Celtiis Cash
             </button>
           </div>
 
-          <div class="input-field-group" style="margin-top: 6px;">
+          <div class="input-field-group momo-phone-group">
             <label class="input-label">Numéro de Téléphone Mobile Money</label>
-            <input type="tel" class="form-input" id="momo-phone" value="${user ? user.phone : '+229 97 00 00 00'}" placeholder="+229 XX XX XX XX" required />
-            <span style="font-size: 0.74rem; color: #667766;">
-              📲 Une invite USSD sera envoyée sur votre téléphone portable pour valider la transaction avec votre code PIN secret.
-            </span>
+            <div class="momo-phone-row">
+              <input type="tel" class="form-input" id="momo-phone" value="${user ? user.phone : '+229 97 00 00 00'}" placeholder="+229 XX XX XX XX" required />
+              <p class="momo-hint">
+                <i class="fas fa-mobile-screen-button" aria-hidden="true"></i>
+                Une invite USSD sera envoyée sur votre téléphone portable pour valider la transaction avec votre code PIN secret.
+              </p>
+            </div>
           </div>
         </div>
       `;
     } else if (this.paymentCategory === 'online_card') {
       return `
-        <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="checkout-payment-form">
           <div class="input-field-group">
             <label class="input-label">Nom sur la Carte</label>
             <input type="text" class="form-input" id="card-name" value="${user ? user.name : ''}" placeholder="M. Kofi Mensah" required />
@@ -207,7 +195,7 @@ export class CheckoutModal {
             <input type="text" class="form-input" id="card-number" placeholder="4532 •••• •••• 8890" maxlength="19" required />
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="checkout-card-grid">
             <div class="input-field-group">
               <label class="input-label">Date d'Expiration (MM/AA)</label>
               <input type="text" class="form-input" id="card-exp" placeholder="12/28" maxlength="5" required />
@@ -223,29 +211,27 @@ export class CheckoutModal {
       const isResident = user && user.isResident;
 
       return `
-        <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="checkout-payment-form">
           <label class="input-label">Option de paiement différé :</label>
 
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <!-- Option 1 : Note de chambre (Réservé aux résidents) -->
-            <label style="display: flex; align-items: flex-start; gap: 10px; padding: 10px; border: 1px solid var(--cta-sand-border); border-radius: var(--radius-sm); cursor: pointer; background: ${isResident ? '#ffffff' : '#f5f5f5'};">
+          <div class="deferred-options">
+            <label class="deferred-option ${isResident ? '' : 'is-disabled'}">
               <input type="radio" name="deferred_choice" value="room_folio" ${isResident ? 'checked' : 'disabled'} />
               <div>
-                <strong style="color: var(--cta-green-dark); font-size: 0.88rem;">Ajouter à la note de ma chambre (Folio Hôtel)</strong>
-                <p style="font-size: 0.76rem; color: #667766;">
-                  ${isResident 
-                    ? `Facturation portée directement sur la note de votre chambre : <strong>${user.roomNumber}</strong>.` 
+                <strong>Ajouter à la note de ma chambre (Folio Hôtel)</strong>
+                <p>
+                  ${isResident
+                    ? `Facturation portée directement sur la note de votre chambre : <strong>${user.roomNumber}</strong>.`
                     : 'Option réservée aux clients séjournant à l’hôtel (Connectez-vous en tant que résident pour activer).'}
                 </p>
               </div>
             </label>
 
-            <!-- Option 2 : Payer à la livraison -->
-            <label style="display: flex; align-items: flex-start; gap: 10px; padding: 10px; border: 1px solid var(--cta-sand-border); border-radius: var(--radius-sm); cursor: pointer; background: #ffffff;">
+            <label class="deferred-option">
               <input type="radio" name="deferred_choice" value="cash_on_delivery" ${!isResident ? 'checked' : ''} />
               <div>
-                <strong style="color: var(--cta-green-dark); font-size: 0.88rem;">Payer à la livraison (Espèces ou TPE Mobile)</strong>
-                <p style="font-size: 0.76rem; color: #667766;">
+                <strong>Payer à la livraison (Espèces ou TPE Mobile)</strong>
+                <p>
                   Réglez directement en mains propres à la réception de vos plats ou pass (parfait pour la livraison en ville ou au transat).
                 </p>
               </div>
@@ -268,7 +254,6 @@ export class CheckoutModal {
   }
 
   bindCheckoutEvents() {
-    // Changement de catégorie de paiement
     this.container.querySelectorAll('.payment-method-card').forEach(card => {
       card.addEventListener('click', () => {
         this.paymentCategory = card.dataset.cat;
@@ -276,7 +261,6 @@ export class CheckoutModal {
       });
     });
 
-    // Choix opérateur MoMo
     this.container.querySelectorAll('.provider-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         this.momoProvider = btn.dataset.provider;
@@ -284,7 +268,6 @@ export class CheckoutModal {
       });
     });
 
-    // Bouton de validation de commande
     const submitBtn = this.container.querySelector('#btn-submit-order');
     if (submitBtn) {
       submitBtn.addEventListener('click', async () => {
@@ -321,7 +304,6 @@ export class CheckoutModal {
     const notesInput = this.container.querySelector('#checkout-notes');
     const notes = notesInput ? notesInput.value : '';
 
-    // Détermination de la livraison
     const foodItem = cart.find(i => i.category === 'restaurant');
     const delivery = foodItem && foodItem.metadata && foodItem.metadata.delivery
       ? {
@@ -338,7 +320,6 @@ export class CheckoutModal {
           roomNumber: user ? user.roomNumber : null
         };
 
-    // Détermination du paiement
     let paymentData = {
       method: this.paymentCategory,
       provider: this.paymentCategory === 'mobile_money' ? this.momoProvider : (this.paymentCategory === 'online_card' ? 'visa_mastercard' : this.deferredOption),
@@ -346,22 +327,55 @@ export class CheckoutModal {
       transactionId: `TX-BIM-${Date.now()}`
     };
 
-    // Soumission vers ERPNext
-    const result = await ERPNextService.submitOrder({
-      cart,
-      user,
-      delivery,
-      payment: paymentData,
-      totals,
-      notes
-    });
+    const roomItems = cart.filter((i) => i.category === 'room');
+    const otherItems = cart.filter((i) => i.category !== 'room');
+    let result;
+
+    if (roomItems.length && !otherItems.length) {
+      const room = roomItems[0];
+      const meta = room.metadata || {};
+      const property = store.state.erpConfig.kamraProperty || 'CTA BIMYNS';
+      const roomType =
+        meta.kamraRoomType ||
+        room.kamraRoomType ||
+        `${property}-${({
+          'suite-safari-zebre': 'SSZ',
+          'chambre-tribale': 'TRI',
+          'chambre-standard': 'STD',
+          'cabine-eco-bungalow': 'ECO',
+        }[room.id] || room.id)}`;
+
+      result = await KamraService.bookRoom({
+        property,
+        roomType,
+        checkIn: meta.checkIn || meta.check_in || new Date().toISOString().slice(0, 10),
+        checkOut: meta.checkOut || meta.check_out || new Date(Date.now() + 86400000 * 2).toISOString().slice(0, 10),
+        guestName: user?.name || 'Client Web BIMYNS',
+        phone: user?.phone || '+22900000000',
+        email: user?.email || '',
+        adults: Number(meta.guests || meta.adults || 2),
+        children: Number(meta.children || 0),
+        mealPlan: meta.mealPlan || '',
+        specialRequests: notes,
+      });
+    } else {
+      result = await ERPNextService.submitOrder({
+        cart,
+        user,
+        delivery,
+        payment: paymentData,
+        totals,
+        notes,
+      });
+    }
 
     this.isSubmitting = false;
 
     if (result.success) {
       this.orderResult = result.data;
       store.clearCart();
-      store.addNotification('Commande transmise à ERPNext avec succès !', 'success');
+      const label = roomItems.length && !otherItems.length ? 'Kamra PMS' : 'ERPNext';
+      store.addNotification(`Commande transmise à ${label} avec succès !`, 'success');
       this.renderCheckoutContent();
     } else {
       store.addNotification(`Erreur de transmission : ${result.error}`, 'error');

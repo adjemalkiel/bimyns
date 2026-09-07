@@ -13,7 +13,7 @@ export class LeisureModal {
 
   render() {
     this.container.innerHTML = `
-      <div class="modal-overlay" id="leisure-modal-overlay">
+      <div class="modal-overlay leisure-modal" id="leisure-modal-overlay">
         <div class="modal-card">
           <!-- En-tête -->
           <div class="modal-header">
@@ -27,10 +27,10 @@ export class LeisureModal {
           <!-- Onglets Piscine / Tennis -->
           <div class="modal-tabs">
             <button class="tab-btn ${this.activeTab === 'pool' ? 'active' : ''}" data-tab="pool">
-              🏊‍♂️ Piscine aux 3 Bassins
+              <i class="fas fa-person-swimming" aria-hidden="true"></i> Piscine aux 3 Bassins
             </button>
             <button class="tab-btn ${this.activeTab === 'tennis' ? 'active' : ''}" data-tab="tennis">
-              🎾 Court de Tennis & Club
+              <i class="fas fa-table-tennis-paddle-ball" aria-hidden="true"></i> Court de Tennis & Club
             </button>
           </div>
 
@@ -65,7 +65,7 @@ export class LeisureModal {
               <div class="leisure-card-header">
                 <div>
                   <h3 class="leisure-title">${item.name}</h3>
-                  <span class="leisure-period">⏱️ ${item.period}</span>
+                  <span class="leisure-period"><i class="fas fa-clock" aria-hidden="true"></i> ${item.period}</span>
                 </div>
                 <span class="badge ${item.type === 'subscription' ? 'badge-gold' : 'badge-green'}">
                   ${item.type === 'subscription' ? 'Abonnement' : 'Pass Ponctuel'}
@@ -80,7 +80,7 @@ export class LeisureModal {
 
               <!-- Sélecteur de date / créneau pour les réservations ponctuelles -->
               ${isSlot || item.type === 'pass' ? `
-                <div class="booking-dates-row" style="margin-top: 6px;">
+                <div class="booking-dates-row leisure-booking-row">
                   <div class="input-field-group">
                     <label class="input-label">Date souhaitée</label>
                     <input type="date" class="form-input leisure-date" value="${todayStr}" min="${todayStr}" />
@@ -108,17 +108,17 @@ export class LeisureModal {
                   `}
                 </div>
               ` : `
-                <div style="background: var(--cta-sand); padding: 10px; border-radius: var(--radius-sm); font-size: 0.8rem; color: #556658;">
-                  ✨ Carte de membre physique remise à l'accueil du complexe dès votre première visite.
+                <div class="leisure-member-note">
+                  Carte de membre physique remise à l'accueil du complexe dès votre première visite.
                 </div>
               `}
 
-              <div class="room-price-cta" style="margin-top: auto; padding-top: 10px; border-top: 1px solid var(--cta-sand-border);">
+              <div class="room-price-cta leisure-price-cta">
                 <div>
                   <span class="room-price-val">${price}</span>
                 </div>
-                <button class="btn btn-primary btn-book-leisure" data-item-id="${item.id}">
-                  <span>${item.type === 'subscription' ? 'Souscrire' : 'Réserver ce créneau'}</span>
+                <button class="btn btn-modal-book btn-book-leisure" data-item-id="${item.id}">
+                  ${item.type === 'subscription' ? 'Souscrire' : 'Réserver'}
                 </button>
               </div>
             </div>

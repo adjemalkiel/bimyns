@@ -27,7 +27,7 @@ export class RestaurantModal {
               <h2 class="modal-title">Restaurant & Bar Écotouristique</h2>
               <span class="modal-subtitle">Gastronomie béninoise, poissons braisés du lac & cocktails frais</span>
             </div>
-            <button class="modal-close-btn" id="rest-close-btn" title="Fermer">✕</button>
+            <button class="modal-close-btn" id="rest-close-btn" title="Fermer" aria-label="Fermer">✕</button>
           </div>
 
           <!-- Corps défilable -->
@@ -36,24 +36,25 @@ export class RestaurantModal {
             <div class="restaurant-delivery-banner">
               <div class="delivery-selector-header">
                 <span class="delivery-selector-title">
-                  <span>📍</span> Mode et Lieu de Livraison (Requis pour votre commande)
+                  <i class="fas fa-location-dot" aria-hidden="true"></i>
+                  Mode et Lieu de Livraison (Requis pour votre commande)
                 </span>
                 <span class="badge badge-gold" id="current-delivery-badge">Transat / Piscine</span>
               </div>
 
               <div class="delivery-type-tabs">
                 <button class="delivery-type-btn ${this.deliveryType === 'pool_garden' ? 'active' : ''}" data-type="pool_garden">
-                  <span style="font-size: 1.2rem;">🏊‍♂️</span>
+                  <i class="fas fa-person-swimming" aria-hidden="true"></i>
                   <span>Sur place (Piscine / Jardin)</span>
                 </button>
 
                 <button class="delivery-type-btn ${this.deliveryType === 'room' ? 'active' : ''}" data-type="room">
-                  <span style="font-size: 1.2rem;">🛎️</span>
+                  <i class="fas fa-bell-concierge" aria-hidden="true"></i>
                   <span>En Chambre (Résidents)</span>
                 </button>
 
                 <button class="delivery-type-btn ${this.deliveryType === 'city' ? 'active' : ''}" data-type="city">
-                  <span style="font-size: 1.2rem;">🛵</span>
+                  <i class="fas fa-motorcycle" aria-hidden="true"></i>
                   <span>Livraison en Ville</span>
                 </button>
               </div>
@@ -65,11 +66,19 @@ export class RestaurantModal {
             </div>
 
             <!-- Filtres par Catégorie -->
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <button class="tab-btn active cat-btn" data-cat="all">Tout le menu</button>
-              <button class="tab-btn cat-btn" data-cat="Entrées">Entrées & Tapas</button>
-              <button class="tab-btn cat-btn" data-cat="Plats">Plats & Grillades</button>
-              <button class="tab-btn cat-btn" data-cat="Boissons">Boissons & Cocktails</button>
+            <div class="restaurant-cat-tabs">
+              <button class="tab-btn active cat-btn" data-cat="all">
+                <i class="fas fa-utensils" aria-hidden="true"></i> Tout le menu
+              </button>
+              <button class="tab-btn cat-btn" data-cat="Entrées">
+                <i class="fas fa-leaf" aria-hidden="true"></i> Entrées & Tapas
+              </button>
+              <button class="tab-btn cat-btn" data-cat="Plats">
+                <i class="fas fa-fire-burner" aria-hidden="true"></i> Plats & Grillades
+              </button>
+              <button class="tab-btn cat-btn" data-cat="Boissons">
+                <i class="fas fa-martini-glass-citrus" aria-hidden="true"></i> Boissons & Cocktails
+              </button>
             </div>
 
             <!-- Grille des Plats & Boissons -->
@@ -94,17 +103,17 @@ export class RestaurantModal {
     if (this.deliveryType === 'pool_garden') {
       badge.textContent = 'Service Transat / Jardin';
       panel.innerHTML = `
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-            <span style="font-size: 0.84rem; font-weight: 600; color: var(--cta-green-dark);">
+        <div class="delivery-options-stack">
+          <div class="delivery-options-toolbar">
+            <span class="delivery-options-hint">
               Indiquez votre emplacement exact pour le serveur :
             </span>
-            <button class="btn btn-secondary btn-sm" id="btn-open-qr-scan" style="padding: 6px 12px; font-size: 0.8rem;">
-              <span>📷</span> Scanner le QR Code de mon transat
+            <button class="btn btn-secondary btn-sm btn-qr-scan" id="btn-open-qr-scan">
+              <i class="fas fa-qrcode" aria-hidden="true"></i> Scanner le QR Code de mon transat
             </button>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center;">
+          <div class="delivery-zone-row">
             <div class="input-field-group">
               <label class="input-label">Zone ou Transat sélectionné</label>
               <select class="form-input" id="select-pool-zone">
@@ -116,8 +125,8 @@ export class RestaurantModal {
               </select>
             </div>
             ${this.scannedQr ? `
-              <div style="background: rgba(76, 175, 80, 0.15); border: 1px solid #4caf50; padding: 6px 10px; border-radius: 6px; font-size: 0.78rem; color: #1b5e20;">
-                ✓ QR validé : <strong>${this.scannedQr}</strong>
+              <div class="delivery-qr-ok">
+                <i class="fas fa-check" aria-hidden="true"></i> QR validé : <strong>${this.scannedQr}</strong>
               </div>
             ` : ''}
           </div>
@@ -128,7 +137,7 @@ export class RestaurantModal {
       const defaultRoom = user && user.isResident && user.roomNumber ? user.roomNumber : this.selectedRoom;
 
       panel.innerHTML = `
-        <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="delivery-options-stack">
           <div class="input-field-group">
             <label class="input-label">Numéro de Chambre / Suite</label>
             <select class="form-input" id="select-room-number">
@@ -138,12 +147,14 @@ export class RestaurantModal {
             </select>
           </div>
           ${user && user.isResident ? `
-            <span style="font-size: 0.78rem; color: #2e7d32; font-weight: 600;">
-              ✓ Reconnu comme résident en ${user.roomNumber}. Possibilité d'ajouter à votre note à l'étape du paiement.
+            <span class="delivery-note delivery-note-ok">
+              <i class="fas fa-check" aria-hidden="true"></i>
+              Reconnu comme résident en ${user.roomNumber}. Possibilité d'ajouter à votre note à l'étape du paiement.
             </span>
           ` : `
-            <span style="font-size: 0.78rem; color: #657568;">
-              ℹ️ Livraison directe à votre porte par notre personnel d'étage.
+            <span class="delivery-note">
+              <i class="fas fa-circle-info" aria-hidden="true"></i>
+              Livraison directe à votre porte par notre personnel d'étage.
             </span>
           `}
         </div>
@@ -155,7 +166,7 @@ export class RestaurantModal {
         : this.cityAddress || 'Haie Vive, Cotonou';
 
       panel.innerHTML = `
-        <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="delivery-options-stack">
           ${user && user.deliveryAddresses && user.deliveryAddresses.length > 0 ? `
             <div class="input-field-group">
               <label class="input-label">Adresses enregistrées sur votre compte</label>
@@ -168,7 +179,7 @@ export class RestaurantModal {
             </div>
           ` : ''}
 
-          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+          <div class="delivery-city-row">
             <div class="input-field-group">
               <label class="input-label">Adresse de livraison (Quartier, Rue, Repère)</label>
               <input type="text" class="form-input" id="input-city-address" value="${defaultAddr}" placeholder="Ex: Rue 340, Villa 12B, Haie Vive, Cotonou" />
@@ -236,15 +247,15 @@ export class RestaurantModal {
         <div class="menu-item-card" data-item-id="${item.id}">
           <img src="${item.image}" alt="${item.name}" class="menu-item-img" />
           <div class="menu-item-info">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div class="menu-item-top">
               <h4 class="menu-item-name">${item.name}</h4>
-              <span class="badge badge-gold" style="font-size: 0.65rem;">${item.badge}</span>
+              <span class="badge badge-gold">${item.badge}</span>
             </div>
             <p class="menu-item-desc">${item.description}</p>
             <div class="menu-item-bottom">
               <span class="menu-item-price">${price}</span>
-              <button class="btn btn-primary btn-add-food" data-item-id="${item.id}" style="padding: 6px 14px; font-size: 0.8rem;">
-                <span>+ Ajouter</span>
+              <button class="btn-modal-book btn-add-food" data-item-id="${item.id}">
+                <i class="fas fa-plus" aria-hidden="true"></i> Ajouter
               </button>
             </div>
           </div>

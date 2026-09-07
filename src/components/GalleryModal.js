@@ -15,42 +15,44 @@ export class GalleryModal {
   render() {
     this.container.innerHTML = `
       <div class="modal-overlay" id="gallery-modal-overlay">
-        <div class="modal-card" style="max-width: 1040px;">
+        <div class="modal-card">
           <!-- En-tête -->
           <div class="modal-header">
             <div class="modal-title-group">
               <h2 class="modal-title">Album Photographique Officiel CTA BIMYNS</h2>
               <span class="modal-subtitle">22 clichés authentiques du complexe hôtelier, des bassins et des espaces naturels</span>
             </div>
-            <button class="modal-close-btn" id="gallery-close-btn" title="Fermer">✕</button>
+            <button class="modal-close-btn" id="gallery-close-btn" title="Fermer" aria-label="Fermer">✕</button>
           </div>
 
           <!-- Filtres -->
           <div class="modal-tabs" id="gallery-filter-tabs">
-            <button class="tab-btn active" data-filter="all">Toutes les photos (22)</button>
-            <button class="tab-btn" data-filter="Hébergement">Chambres & Suites</button>
-            <button class="tab-btn" data-filter="Loisirs">Piscine & Détente</button>
-            <button class="tab-btn" data-filter="Restauration">Restaurant & Bar</button>
-            <button class="tab-btn" data-filter="Architecture">Architecture</button>
-            <button class="tab-btn" data-filter="Environnement">Jardins & Lac</button>
+            <button class="tab-btn active" data-filter="all"><i class="fas fa-images" aria-hidden="true"></i> Toutes les photos (22)</button>
+            <button class="tab-btn" data-filter="Hébergement"><i class="fas fa-bed" aria-hidden="true"></i> Chambres & Suites</button>
+            <button class="tab-btn" data-filter="Loisirs"><i class="fas fa-person-swimming" aria-hidden="true"></i> Piscine & Détente</button>
+            <button class="tab-btn" data-filter="Restauration"><i class="fas fa-utensils" aria-hidden="true"></i> Restaurant & Bar</button>
+            <button class="tab-btn" data-filter="Architecture"><i class="fas fa-building" aria-hidden="true"></i> Architecture</button>
+            <button class="tab-btn" data-filter="Environnement"><i class="fas fa-tree" aria-hidden="true"></i> Jardins & Lac</button>
           </div>
 
           <!-- Corps de la Galerie -->
           <div class="modal-body">
             <!-- Visionneuse agrandie si photo sélectionnée -->
-            <div id="gallery-lightbox" style="display: none; background: #0c140e; border-radius: var(--radius-md); overflow: hidden; padding: 14px; margin-bottom: 16px; border: 1px solid var(--cta-sand-border);">
-              <div style="position: relative; width: 100%; height: 420px; display: flex; align-items: center; justify-content: center;">
-                <img id="lightbox-img" src="" alt="Agrandissement" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: var(--radius-sm);" />
-                <button id="lightbox-close-btn" style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem;">✕</button>
+            <div id="gallery-lightbox" class="gallery-lightbox" hidden>
+              <div class="gallery-lightbox-frame">
+                <img id="lightbox-img" src="" alt="Agrandissement" />
+                <button type="button" id="lightbox-close-btn" class="gallery-lightbox-close" title="Fermer" aria-label="Fermer">
+                  <i class="fas fa-xmark" aria-hidden="true"></i>
+                </button>
               </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; color: #ffffff;">
-                <h4 id="lightbox-title" style="font-family: var(--font-serif); font-size: 1.1rem;"></h4>
+              <div class="gallery-lightbox-meta">
+                <h4 id="lightbox-title"></h4>
                 <span id="lightbox-tag" class="badge badge-gold"></span>
               </div>
             </div>
 
             <!-- Grille de vignettes -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;" id="gallery-grid-items">
+            <div class="gallery-grid" id="gallery-grid-items">
               <!-- Injecté dynamiquement -->
             </div>
           </div>
@@ -71,11 +73,11 @@ export class GalleryModal {
       : ALL_RESORT_PHOTOS.filter(p => p.tag === this.activeFilter);
 
     grid.innerHTML = filtered.map(p => `
-      <div class="gallery-item-card" data-src="${p.src}" data-title="${p.title}" data-tag="${p.tag}" style="position: relative; height: 160px; border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; border: 1px solid var(--cta-sand-border); box-shadow: var(--shadow-sm); transition: transform 0.2s ease;">
-        <img src="${p.src}" alt="${p.title}" style="width: 100%; height: 100%; object-fit: cover;" />
-        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); padding: 8px 10px; color: white;">
-          <div style="font-size: 0.78rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.title}</div>
-          <div style="font-size: 0.65rem; color: var(--cta-gold);">${p.tag}</div>
+      <div class="gallery-item-card" data-src="${p.src}" data-title="${p.title}" data-tag="${p.tag}">
+        <img src="${p.src}" alt="${p.title}" />
+        <div class="gallery-item-caption">
+          <div class="gallery-item-title">${p.title}</div>
+          <div class="gallery-item-tag">${p.tag}</div>
         </div>
       </div>
     `).join('');
@@ -116,13 +118,13 @@ export class GalleryModal {
         img.src = src;
         titleEl.textContent = title;
         tagEl.textContent = tag;
-        lightbox.style.display = 'block';
+        lightbox.hidden = false;
         lightbox.scrollIntoView({ behavior: 'smooth' });
       }
 
-      if (e.target.id === 'lightbox-close-btn') {
+      if (e.target.closest('#lightbox-close-btn')) {
         const lightbox = this.container.querySelector('#gallery-lightbox');
-        if (lightbox) lightbox.style.display = 'none';
+        if (lightbox) lightbox.hidden = true;
       }
     });
   }

@@ -12,21 +12,18 @@ export class CartDrawer {
     this.container.innerHTML = `
       <div class="cart-drawer-overlay" id="cart-drawer-overlay">
         <aside class="cart-drawer">
-          <!-- En-tête -->
           <div class="cart-header">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.3rem;">🛒</span>
+            <div class="cart-header-title">
+              <i class="fas fa-shopping-bag" aria-hidden="true"></i>
               <h3 class="cart-title">Mon Panier Unifié</h3>
             </div>
             <button class="modal-close-btn" id="cart-close-btn" title="Fermer le panier">✕</button>
           </div>
 
-          <!-- Corps des Articles -->
           <div class="cart-body" id="cart-items-container">
             <!-- Rempli par updateContent() -->
           </div>
 
-          <!-- Pied de page et Totaux -->
           <div class="cart-footer" id="cart-footer-panel">
             <!-- Rempli par updateContent() -->
           </div>
@@ -47,7 +44,6 @@ export class CartDrawer {
       if (e.target === overlay) store.closeModal();
     });
 
-    // Actions sur les articles du panier
     this.container.addEventListener('click', (e) => {
       const incBtn = e.target.closest('.qty-inc');
       if (incBtn) {
@@ -72,7 +68,6 @@ export class CartDrawer {
         return;
       }
 
-      // Bouton Passer au paiement
       const checkoutBtn = e.target.closest('#btn-go-checkout');
       if (checkoutBtn) {
         store.closeModal();
@@ -96,9 +91,9 @@ export class CartDrawer {
     if (cart.length === 0) {
       itemsContainer.innerHTML = `
         <div class="cart-empty-state">
-          <span class="cart-empty-icon">🏖️</span>
-          <h4 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--cta-green-dark);">Votre panier est vide</h4>
-          <p style="font-size: 0.85rem; line-height: 1.4;">
+          <i class="fas fa-umbrella-beach cart-empty-icon" aria-hidden="true"></i>
+          <h4 class="cart-empty-title">Votre panier est vide</h4>
+          <p class="cart-empty-copy">
             Découvrez nos hébergements, nos loisirs et notre restaurant pour réserver une suite, planifier une partie de tennis ou commander un cocktail au bord des bassins.
           </p>
           <button class="btn btn-primary" onclick="window.ctaApp.openZoneModal('rooms')">
@@ -112,27 +107,30 @@ export class CartDrawer {
 
     footerPanel.style.display = 'flex';
 
-    // Rendu des articles du panier
     itemsContainer.innerHTML = cart.map(item => {
       const itemTotalXOF = item.priceXOF * item.quantity;
       const itemTotalEUR = +(item.priceEUR * item.quantity).toFixed(2);
       const priceStr = currency === 'EUR' ? `${itemTotalEUR} €` : `${itemTotalXOF.toLocaleString('fr-FR')} FCFA`;
 
       let catBadge = '';
-      if (item.category === 'room') catBadge = '<span class="badge badge-gold" style="font-size: 0.65rem;">🏨 Séjour</span>';
-      if (item.category === 'leisure') catBadge = '<span class="badge badge-green" style="font-size: 0.65rem;">🎾 Loisirs</span>';
-      if (item.category === 'restaurant') catBadge = '<span class="badge" style="background: rgba(24, 192, 217, 0.15); color: #0d7f91; font-size: 0.65rem;">🍽️ Restaurant</span>';
+      if (item.category === 'room') {
+        catBadge = '<span class="badge badge-gold"><i class="fas fa-hotel" aria-hidden="true"></i> Séjour</span>';
+      } else if (item.category === 'leisure') {
+        catBadge = '<span class="badge badge-green"><i class="fas fa-location-dot" aria-hidden="true"></i> Loisirs</span>';
+      } else if (item.category === 'restaurant') {
+        catBadge = '<span class="badge badge-restaurant"><i class="fas fa-utensils" aria-hidden="true"></i> Restaurant</span>';
+      }
 
       return `
         <div class="cart-item-row" data-cart-item-id="${item.cartItemId}">
           <img src="${item.image || '/assets/906078286.jpg'}" alt="${item.title}" class="cart-item-thumb" />
           <div class="cart-item-details">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div class="cart-item-top">
               <h4 class="cart-item-title">${item.title}</h4>
               <button class="cart-item-remove" data-cart-item-id="${item.cartItemId}" title="Supprimer">✕</button>
             </div>
-            
-            <div style="display: flex; align-items: center; gap: 6px;">
+
+            <div class="cart-item-meta">
               ${catBadge}
               <span class="cart-item-sub">${item.details || ''}</span>
             </div>
@@ -151,7 +149,6 @@ export class CartDrawer {
       `;
     }).join('');
 
-    // Rendu du footer avec totaux et taxe écotouristique
     const subtotalStr = currency === 'EUR' ? `${totals.subtotalEUR} €` : `${totals.subtotalXOF.toLocaleString('fr-FR')} FCFA`;
     const ecoTaxStr = currency === 'EUR' ? `${totals.ecoTaxEUR} €` : `${totals.ecoTaxXOF.toLocaleString('fr-FR')} FCFA`;
     const finalStr = currency === 'EUR' ? `${totals.finalEUR} €` : `${totals.finalXOF.toLocaleString('fr-FR')} FCFA`;
@@ -167,17 +164,17 @@ export class CartDrawer {
       </div>
       <div class="cart-summary-row total-row">
         <span>Montant Total Net</span>
-        <span style="color: var(--cta-green-primary);">${finalStr}</span>
+        <span class="cart-total-amount">${finalStr}</span>
       </div>
 
-      <button class="btn btn-primary btn-gold" id="btn-go-checkout" style="width: 100%; padding: 14px; font-size: 1rem; margin-top: 6px;">
-        <span>💳 Passer la commande (${finalStr})</span>
+      <button class="btn btn-primary btn-gold" id="btn-go-checkout">
+        <span><i class="fas fa-credit-card" aria-hidden="true"></i> Passer la commande (${finalStr})</span>
       </button>
 
-      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.72rem; color: #778877; margin-top: 4px;">
-        <span>🔒 Paiement sécurisé CB & Mobile Money</span>
-        <span>•</span>
-        <span>⚡ Synchronisé ERPNext</span>
+      <div class="cart-trust-line">
+        <span><i class="fas fa-lock" aria-hidden="true"></i> Paiement sécurisé CB & Mobile Money</span>
+        <span aria-hidden="true">•</span>
+        <span><i class="fas fa-bolt" aria-hidden="true"></i> Synchronisé ERPNext</span>
       </div>
     `;
   }

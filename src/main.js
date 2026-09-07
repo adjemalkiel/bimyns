@@ -21,6 +21,7 @@ class CTAApp {
     this.bindEvents();
     this.bindHeroVideo();
     this.bindStickyHeader();
+    this.bindRoomsCarousel();
     this.bindGlobalState();
 
     setTimeout(() => {
@@ -48,6 +49,9 @@ class CTAApp {
   closeAllMenus() {
     document.querySelectorAll('.split-menu-links.is-open').forEach(menu => {
       menu.classList.remove('is-open');
+    });
+    document.querySelectorAll('.split-nav-burger[aria-expanded="true"]').forEach(btn => {
+      btn.setAttribute('aria-expanded', 'false');
     });
   }
 
@@ -89,6 +93,7 @@ class CTAApp {
         const header = burger.closest('header');
         const menu = header?.querySelector('.split-menu-links');
         menu?.classList.toggle('is-open');
+        burger.setAttribute('aria-expanded', menu?.classList.contains('is-open') ? 'true' : 'false');
         return;
       }
 
@@ -197,6 +202,7 @@ class CTAApp {
       this.stickyHeader.setAttribute('aria-hidden', show ? 'false' : 'true');
       if (!show) {
         this.stickyHeader.querySelector('.split-menu-links')?.classList.remove('is-open');
+        this.stickyHeader.querySelector('.sticky-nav-burger')?.setAttribute('aria-expanded', 'false');
         this.stickyHeader.querySelector('.sticky-search-pill')?.classList.remove('is-expanded');
       }
     };
@@ -204,6 +210,194 @@ class CTAApp {
     updateVisibility();
     window.addEventListener('scroll', updateVisibility, { passive: true });
     window.addEventListener('resize', updateVisibility, { passive: true });
+  }
+
+  bindRoomsCarousel() {
+    const root = document.getElementById('chambres');
+    if (!root) return;
+    const carousel = root.querySelector('.rooms-carousel');
+    const featured = root.querySelector('.rooms-card--featured');
+    if (!carousel || !featured) return;
+
+    const img = featured.querySelector('.rooms-featured-img');
+    const priceEl = featured.querySelector('.rooms-price');
+    const titleEl = featured.querySelector('.rooms-featured-title');
+    const blurbEl = featured.querySelector('.rooms-featured-blurb');
+    const amenitiesEl = featured.querySelector('.rooms-featured-amenities');
+    const plainCards = [...root.querySelectorAll('.rooms-plain [data-featured]')];
+
+    const ROOMS = [
+      {
+        img: '/assets/906078607.jpg',
+        alt: 'Suite Safari Zèbre',
+        title: 'Suite Safari Zèbre',
+        blurb: 'Ambiance chaleureuse et élégante pour un séjour inoubliable.',
+        xof: 75000,
+        eur: 115,
+        amenities: [
+          ['fa-users', '2 personnes'],
+          ['fa-snowflake', 'Climatisation'],
+          ['fa-wifi', 'Wi-Fi'],
+        ],
+      },
+      {
+        img: '/assets/906078592.jpg',
+        alt: 'Chambre Tribale',
+        title: 'Chambre Tribale',
+        blurb: 'Confort et authenticité aux couleurs du Bénin.',
+        xof: 55000,
+        eur: 84,
+        amenities: [
+          ['fa-users', '2 personnes'],
+          ['fa-snowflake', 'Climatisation'],
+          ['fa-wifi', 'Wi-Fi'],
+        ],
+      },
+      {
+        img: '/assets/notre-chambre.jpg',
+        alt: 'Chambre Standard',
+        title: 'Chambre Standard',
+        blurb: 'Simple, confortable et fonctionnelle.',
+        xof: 40000,
+        eur: 61,
+        amenities: [
+          ['fa-users', '2 personnes'],
+          ['fa-snowflake', 'Climatisation'],
+          ['fa-wifi', 'Wi-Fi'],
+        ],
+      },
+    ];
+
+    const AUTOPLAY_MS = 5000;
+    const RESUME_MS = 5000;
+    const FADE_MS = 1000;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let i = 0;
+    let autoplayTimer = null;
+    let resumeTimer = null;
+    let fadeTimer = null;
+    let hoverPaused = false;
+    let userPaused = false;
+
+    const formatPrice = (xof, eur) => (
+      store.state.currency === 'EUR'
+        ? `${eur} €`
+        : `${xof.toLocaleString('fr-FR')}F`
+    );
+
+    const applyRoom = (room) => {
+      img.src = room.img;
+      img.alt = room.alt;
+      titleEl.textContent = room.title;
+      blurbEl.textContent = room.blurb;
+      priceEl.dataset.xof = room.xof;
+      priceEl.dataset.eur = room.eur;
+      priceEl.textContent = formatPrice(room.xof, room.eur);
+      amenitiesEl.innerHTML = room.amenities.map(
+        ([icon, text]) => `<li><i class="fas ${icon}"></i> ${text}</li>`,
+      ).join('');
+    };
+
+    const clearAutoplay = () => {
+      if (autoplayTimer) {
+        clearTimeout(autoplayTimer);
+        autoplayTimer = null;
+      }
+    };
+
+    const clearResume = () => {
+      if (resumeTimer) {
+        clearTimeout(resumeTimer);
+        resumeTimer = null;
+      }
+    };
+
+    const scheduleAutoplay = (delay = AUTOPLAY_MS) => {
+      clearAutoplay();
+      if (motion.matches || hoverPaused || userPaused) return;
+      autoplayTimer = setTimeout(() => setFeatured(i + 1), delay);
+    };
+
+    const pauseForUser = () => {
+      userPaused = true;
+      clearAutoplay();
+      clearResume();
+      resumeTimer = setTimeout(() => {
+        userPaused = false;
+        scheduleAutoplay();
+      }, RESUME_MS);
+    };
+
+    const setFeatured = (n) => {
+      const next = (n + ROOMS.length) % ROOMS.length;
+      if (next === i) return;
+      clearAutoplay();
+      if (fadeTimer) clearTimeout(fadeTimer);
+
+      const swap = () => {
+        applyRoom(ROOMS[next]);
+        i = next;
+        featured.classList.remove('is-fading');
+        if (!motion.matches && !hoverPaused && !userPaused) {
+          autoplayTimer = setTimeout(() => setFeatured(i + 1), AUTOPLAY_MS);
+        }
+      };
+
+      if (motion.matches) {
+        swap();
+        return;
+      }
+
+      featured.classList.add('is-fading');
+      fadeTimer = setTimeout(swap, FADE_MS);
+    };
+
+    root.querySelector('.rooms-prev')?.addEventListener('click', () => {
+      pauseForUser();
+      setFeatured(i - 1);
+    });
+    root.querySelector('.rooms-next')?.addEventListener('click', () => {
+      pauseForUser();
+      setFeatured(i + 1);
+    });
+
+    plainCards.forEach((card) => {
+      const pick = () => {
+        pauseForUser();
+        setFeatured(Number(card.dataset.featured));
+      };
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('[data-action]')) return;
+        pick();
+      });
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pick();
+        }
+      });
+    });
+
+    carousel.addEventListener('mouseenter', () => {
+      hoverPaused = true;
+      clearAutoplay();
+    });
+    carousel.addEventListener('mouseleave', () => {
+      hoverPaused = false;
+      if (!userPaused) scheduleAutoplay();
+    });
+
+    motion.addEventListener('change', () => {
+      clearAutoplay();
+      clearResume();
+      if (fadeTimer) clearTimeout(fadeTimer);
+      featured.classList.remove('is-fading');
+      userPaused = false;
+      hoverPaused = false;
+      if (!motion.matches) scheduleAutoplay();
+    });
+
+    scheduleAutoplay();
   }
 
   runSearch(inputEl) {
@@ -240,8 +434,8 @@ class CTAApp {
       document.getElementById('accueil')?.scrollIntoView({ behavior: 'smooth' });
     } else if (action === 'rooms') {
       store.openModal('rooms');
-    } else if (action === 'leisure') {
-      store.openModal('leisure');
+    } else if (action === 'leisure' || action === 'leisure-pool' || action === 'leisure-tennis') {
+      store.openModal(action);
     } else if (action === 'restaurant') {
       store.openModal('restaurant');
     } else if (action === 'gallery') {
@@ -272,6 +466,14 @@ class CTAApp {
     if (badgePrice) {
       badgePrice.textContent = currency === 'EUR' ? '38 €' : '25 000F';
     }
+
+    document.querySelectorAll('.rooms-price').forEach((el) => {
+      const xof = Number(el.dataset.xof);
+      const eur = Number(el.dataset.eur);
+      el.textContent = currency === 'EUR'
+        ? `${eur} €`
+        : `${xof.toLocaleString('fr-FR')}F`;
+    });
 
     document.querySelectorAll('.btn-cart-top').forEach(btn => {
       btn.classList.toggle('is-hidden', !showCart);

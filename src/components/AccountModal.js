@@ -14,14 +14,14 @@ export class AccountModal {
   render() {
     this.container.innerHTML = `
       <div class="modal-overlay" id="account-modal-overlay">
-        <div class="modal-card">
+        <div class="modal-card account-card">
           <!-- En-tête -->
           <div class="modal-header">
             <div class="modal-title-group">
               <h2 class="modal-title">Espace Client & Compte CTA BIMYNS</h2>
               <span class="modal-subtitle">Gestion de vos séjours, abonnements sports & adresses de livraison</span>
             </div>
-            <button class="modal-close-btn" id="account-close-btn" title="Fermer">✕</button>
+            <button class="modal-close-btn" id="account-close-btn" title="Fermer" aria-label="Fermer">✕</button>
           </div>
 
           <!-- Corps défilable -->
@@ -45,50 +45,56 @@ export class AccountModal {
     if (!user) {
       // Écran d'Authentification (Connexion / Inscription)
       body.innerHTML = `
-        <div style="max-width: 460px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; padding: 20px 0;">
-          <div class="modal-tabs" style="justify-content: center; background: transparent; border: none;">
-            <button class="tab-btn ${this.authMode === 'login' ? 'active' : ''}" id="tab-login-btn">Connexion</button>
-            <button class="tab-btn ${this.authMode === 'register' ? 'active' : ''}" id="tab-register-btn">Créer un compte</button>
+        <div class="account-auth-panel">
+          <div class="modal-tabs account-auth-tabs">
+            <button type="button" class="tab-btn ${this.authMode === 'login' ? 'active' : ''}" id="tab-login-btn">
+              <i class="fas fa-right-to-bracket" aria-hidden="true"></i> Connexion
+            </button>
+            <button type="button" class="tab-btn ${this.authMode === 'register' ? 'active' : ''}" id="tab-register-btn">
+              <i class="fas fa-user-plus" aria-hidden="true"></i> Créer un compte
+            </button>
           </div>
 
-          <form id="auth-form" style="display: flex; flex-direction: column; gap: 14px;">
+          <form id="auth-form" class="account-auth-form">
             <div class="input-field-group">
-              <label class="input-label">Adresse Email</label>
+              <label class="input-label" for="auth-email">Adresse Email</label>
               <input type="email" class="form-input" id="auth-email" required placeholder="nom@domaine.com" />
             </div>
 
             <div class="input-field-group">
-              <label class="input-label">Mot de passe</label>
+              <label class="input-label" for="auth-password">Mot de passe</label>
               <input type="password" class="form-input" id="auth-password" required placeholder="••••••••" />
             </div>
 
             ${this.authMode === 'register' ? `
               <div class="input-field-group">
-                <label class="input-label">Nom complet</label>
+                <label class="input-label" for="auth-name">Nom complet</label>
                 <input type="text" class="form-input" id="auth-name" required placeholder="Prénom Nom" />
               </div>
               <div class="input-field-group">
-                <label class="input-label">Numéro de Téléphone (Bénin / WhatsApp)</label>
+                <label class="input-label" for="auth-phone">Numéro de Téléphone (Bénin / WhatsApp)</label>
                 <input type="tel" class="form-input" id="auth-phone" required placeholder="+229 XX XX XX XX" />
               </div>
             ` : ''}
 
-            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-primary account-auth-submit">
               <span>${this.authMode === 'login' ? 'Se connecter' : 'Valider l’inscription'}</span>
             </button>
           </form>
 
           <!-- Comptes de Démonstration Rapides -->
-          <div style="background: var(--cta-sand); border: 1px solid var(--cta-sand-border); border-radius: var(--radius-md); padding: 14px;">
-            <span style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--cta-green-dark); display: block; margin-bottom: 8px;">
-              ⚡ Comptes Démo Pré-configurés :
+          <div class="account-demo-box">
+            <span class="account-demo-label">
+              <i class="fas fa-bolt" aria-hidden="true"></i> Comptes Démo Pré-configurés
             </span>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-              <button class="btn btn-secondary btn-sm btn-quick-login" data-user-id="USR-8942" style="justify-content: flex-start; text-align: left; font-size: 0.82rem;">
-                <span>🏨 <strong>Dr. Kofi Mensah</strong> (Résident Suite 101 - Note autorisée)</span>
+            <div class="account-demo-list">
+              <button type="button" class="btn btn-secondary btn-sm btn-quick-login" data-user-id="USR-8942">
+                <i class="fas fa-hotel" aria-hidden="true"></i>
+                <span><strong>Dr. Kofi Mensah</strong> (Résident Suite 101 - Note autorisée)</span>
               </button>
-              <button class="btn btn-secondary btn-sm btn-quick-login" data-user-id="USR-6721" style="justify-content: flex-start; text-align: left; font-size: 0.82rem;">
-                <span>🏙️ <strong>Amina Touré</strong> (Visiteur externe - Cotonou)</span>
+              <button type="button" class="btn btn-secondary btn-sm btn-quick-login" data-user-id="USR-6721">
+                <i class="fas fa-city" aria-hidden="true"></i>
+                <span><strong>Amina Touré</strong> (Visiteur externe - Cotonou)</span>
               </button>
             </div>
           </div>
@@ -100,102 +106,111 @@ export class AccountModal {
         <!-- Carte Profil Utilisateur -->
         <div class="user-profile-header">
           <div class="user-avatar-large">${user.name.charAt(0)}</div>
-          <div style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1;">
-            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-              <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--cta-green-dark);">${user.name}</h3>
+          <div class="user-profile-meta">
+            <div class="user-profile-name-row">
+              <h3 class="user-profile-name">${user.name}</h3>
               ${user.isResident ? `
-                <span class="badge badge-resident">🏨 Client Résident : ${user.roomNumber}</span>
+                <span class="badge badge-resident"><i class="fas fa-hotel" aria-hidden="true"></i> Client Résident : ${user.roomNumber}</span>
               ` : `
-                <span class="badge badge-green">Visiteur Externe</span>
+                <span class="badge badge-green"><i class="fas fa-user" aria-hidden="true"></i> Visiteur Externe</span>
               `}
             </div>
-            <span style="font-size: 0.84rem; color: #556658;">✉️ ${user.email} | 📞 ${user.phone}</span>
+            <span class="user-profile-contact">
+              <i class="fas fa-envelope" aria-hidden="true"></i> ${user.email}
+              <span class="user-profile-sep" aria-hidden="true">·</span>
+              <i class="fas fa-phone" aria-hidden="true"></i> ${user.phone}
+            </span>
             ${user.isResident ? `
-              <span style="font-size: 0.82rem; font-weight: 700; color: var(--cta-gold);">
-                💳 Solde Note de Chambre : ${user.roomFolioBalanceXOF.toLocaleString('fr-FR')} FCFA
+              <span class="user-profile-folio">
+                <i class="fas fa-credit-card" aria-hidden="true"></i>
+                Solde Note de Chambre : ${user.roomFolioBalanceXOF.toLocaleString('fr-FR')} FCFA
               </span>
             ` : ''}
           </div>
-          <button class="btn btn-secondary btn-sm" id="btn-logout" style="font-size: 0.8rem;">Déconnexion</button>
+          <button type="button" class="btn btn-secondary btn-sm account-logout-btn" id="btn-logout">
+            <i class="fas fa-right-from-bracket" aria-hidden="true"></i> Déconnexion
+          </button>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="account-dashboard-grid">
           <!-- 1. Adresses de Livraison Enregistrées (pour la ville) -->
           <div class="profile-card-section">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <h4 class="section-heading">📍 Adresses de Livraison en Ville</h4>
-              <button class="btn btn-secondary btn-sm" id="btn-add-address" style="padding: 4px 10px; font-size: 0.75rem;">+ Ajouter</button>
+            <div class="profile-section-head">
+              <h4 class="section-heading"><i class="fas fa-location-dot" aria-hidden="true"></i> Adresses de Livraison en Ville</h4>
+              <button type="button" class="btn btn-secondary btn-sm account-section-btn" id="btn-add-address">
+                <i class="fas fa-plus" aria-hidden="true"></i> Ajouter
+              </button>
             </div>
 
             ${user.deliveryAddresses && user.deliveryAddresses.length > 0 ? `
-              <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div class="account-list">
                 ${user.deliveryAddresses.map(addr => `
-                  <div style="background: var(--cta-sand-light); border: 1px solid var(--cta-sand-border); padding: 10px; border-radius: var(--radius-sm); font-size: 0.82rem;">
-                    <strong style="color: var(--cta-green-dark);">${addr.label}</strong> : ${addr.street}, ${addr.district} (${addr.city})
+                  <div class="account-list-item">
+                    <strong>${addr.label}</strong> : ${addr.street}, ${addr.district} (${addr.city})
                   </div>
                 `).join('')}
               </div>
             ` : `
-              <p style="font-size: 0.82rem; color: #889988;">Aucune adresse enregistrée pour le moment.</p>
+              <p class="account-empty">Aucune adresse enregistrée pour le moment.</p>
             `}
           </div>
 
           <!-- 2. Abonnements en cours (Piscine / Tennis) -->
           <div class="profile-card-section">
-            <h4 class="section-heading">🏆 Abonnements en Cours (Club)</h4>
+            <h4 class="section-heading"><i class="fas fa-trophy" aria-hidden="true"></i> Abonnements en Cours (Club)</h4>
             ${user.activeSubscriptions && user.activeSubscriptions.length > 0 ? `
-              <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div class="account-list">
                 ${user.activeSubscriptions.map(sub => `
-                  <div style="display: flex; justify-content: space-between; align-items: center; background: var(--cta-sand-light); border: 1px solid var(--cta-sand-border); padding: 10px; border-radius: var(--radius-sm);">
+                  <div class="account-list-item account-list-item-row">
                     <div>
-                      <strong style="font-size: 0.84rem; color: var(--cta-green-dark);">${sub.title}</strong>
-                      <div style="font-size: 0.74rem; color: #778877;">Valide jusqu'au ${sub.validUntil}</div>
+                      <strong class="account-list-title">${sub.title}</strong>
+                      <div class="account-list-sub">Valide jusqu'au ${sub.validUntil}</div>
                     </div>
                     <span class="badge badge-gold">${sub.badge}</span>
                   </div>
                 `).join('')}
               </div>
             ` : `
-              <p style="font-size: 0.82rem; color: #889988;">Aucun abonnement actif. Découvrez nos formules dans la section Loisirs.</p>
+              <p class="account-empty">Aucun abonnement actif. Découvrez nos formules dans la section Loisirs.</p>
             `}
           </div>
         </div>
 
         <!-- 3. Historique des Commandes & Réservations Synchronisées ERPNext -->
         <div class="profile-card-section">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h4 class="section-heading">📦 Historique des Commandes & Réservations (ERPNext)</h4>
-            <button class="btn btn-secondary btn-sm" id="btn-view-erp-inspector" style="padding: 4px 10px; font-size: 0.75rem;">
-              Inspecter flux ERPNext
+          <div class="profile-section-head">
+            <h4 class="section-heading"><i class="fas fa-box" aria-hidden="true"></i> Historique des Commandes & Réservations (ERPNext)</h4>
+            <button type="button" class="btn btn-secondary btn-sm account-section-btn" id="btn-view-erp-inspector">
+              <i class="fas fa-magnifying-glass" aria-hidden="true"></i> Inspecter flux ERPNext
             </button>
           </div>
 
           ${user.orderHistory && user.orderHistory.length > 0 ? `
-            <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="account-list">
               ${user.orderHistory.map(order => `
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--cta-sand-light); border: 1px solid var(--cta-sand-border); border-radius: var(--radius-sm);">
+                <div class="account-list-item account-list-item-row">
                   <div>
-                    <div style="font-weight: 700; font-size: 0.86rem; color: var(--cta-green-dark);">${order.orderId}</div>
-                    <div style="font-size: 0.78rem; color: #667766;">${order.date} • ${order.type}</div>
+                    <div class="account-order-id">${order.orderId}</div>
+                    <div class="account-list-sub">${order.date} • ${order.type}</div>
                   </div>
-                  <div style="text-align: right;">
-                    <div style="font-weight: 800; font-size: 0.9rem; color: var(--cta-green-primary);">${order.totalXOF.toLocaleString('fr-FR')} FCFA</div>
-                    <span class="badge badge-green" style="font-size: 0.65rem;">${order.status}</span>
+                  <div class="account-order-right">
+                    <div class="account-order-total">${order.totalXOF.toLocaleString('fr-FR')} FCFA</div>
+                    <span class="badge badge-green">${order.status}</span>
                   </div>
                 </div>
               `).join('')}
             </div>
           ` : `
-            <p style="font-size: 0.82rem; color: #889988;">Aucune commande passée récemment.</p>
+            <p class="account-empty">Aucune commande passée récemment.</p>
           `}
         </div>
 
         <!-- Bascule Rapide Utilisateur Démo -->
-        <div style="padding: 12px; background: var(--cta-sand); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem;">
-          <span>Tester avec un autre profil :</span>
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn-secondary btn-sm btn-quick-login" data-user-id="USR-8942">Dr. Kofi (Résident)</button>
-            <button class="btn btn-secondary btn-sm btn-quick-login" data-user-id="USR-6721">Amina (Externe)</button>
+        <div class="account-switcher">
+          <span class="account-switcher-label">Tester avec un autre profil :</span>
+          <div class="account-switcher-actions">
+            <button type="button" class="btn btn-secondary btn-sm btn-quick-login" data-user-id="USR-8942">Dr. Kofi (Résident)</button>
+            <button type="button" class="btn btn-secondary btn-sm btn-quick-login" data-user-id="USR-6721">Amina (Externe)</button>
           </div>
         </div>
       `;

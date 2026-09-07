@@ -289,7 +289,8 @@
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   cursor: pointer;
-  padding-bottom: 4px;
+  line-height: 1;
+  padding: 4px 0;
   position: relative;
   transition: color 0.2s ease;
 }
@@ -684,6 +685,25 @@
   }
 }
 
+/* Mobile / no-hover: gentle Ken Burns (desktop keeps hover zoom) */
+@keyframes splitHeroKenBurns {
+  0%,
+  100% {
+    transform: scale(1.02);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@media (max-width: 900px) and (prefers-reduced-motion: no-preference),
+  (hover: none) and (prefers-reduced-motion: no-preference) {
+  .split-hero-img {
+    animation: splitHeroKenBurns 16s ease-in-out infinite;
+    transition: opacity 0.7s ease;
+  }
+}
+
 /* ==========================================================================
    Responsive — tablet
    ========================================================================== */
@@ -812,9 +832,7 @@
     min-height: 220px;
   }
 
-  .split-hero-img,
-  .split-hero-video,
-  .split-hero-container:hover .split-hero-img {
+  .split-hero-video {
     transform: none;
   }
 
@@ -852,12 +870,17 @@
 
   .split-top-tools {
     position: absolute;
-    top: 16px;
-    right: 72px;
-    left: auto;
+    top: 64px;
+    right: 20px;
+    left: 20px;
     margin: 0;
-    gap: 6px;
+    justify-content: flex-end;
+    gap: 8px;
     z-index: 22;
+  }
+
+  .split-left-content {
+    padding-top: 52px;
   }
 
   .split-top-tools .search-field {
@@ -906,30 +929,42 @@
     display: inline-flex;
   }
 
+  /* Position against .split-top-nav (full width), not .nav-brand-group (logo-only). */
+  .nav-brand-group {
+    position: static;
+  }
+
   .split-menu-links {
     display: none;
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 52px);
     left: 0;
     right: 0;
+    width: 100%;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: rgba(3, 49, 58, 0.98);
-    padding: 8px 12px 14px;
-    border-radius: 12px;
-    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
-    z-index: 20;
+    margin: 0;
+    background: #03313a;
+    padding: 10px 14px 16px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+    z-index: 50;
   }
 
   .split-menu-links.is-open {
     display: flex;
   }
 
+  .split-top-nav:has(.split-menu-links.is-open) .split-nav-burger .fa-bars::before {
+    content: '\f00d';
+  }
+
   .split-menu-link {
     padding: 14px 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     min-height: 44px;
+    color: #fff;
   }
 
   .split-menu-link.active::after {
@@ -959,6 +994,37 @@
   }
 }
 
+/* ≤640px: tighten logo + action chips */
+@media (max-width: 640px) {
+  .split-logo-img {
+    height: 44px;
+    max-width: 110px;
+  }
+
+  .split-nav-burger {
+    width: 40px;
+    height: 40px;
+  }
+
+  .split-top-tools {
+    top: 60px;
+    right: 16px;
+    left: 16px;
+  }
+
+  .split-top-tools .search-icon-btn,
+  .btn-split-account,
+  .btn-split-cart {
+    width: 36px;
+    height: 36px;
+  }
+
+  .curr-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.65rem;
+  }
+}
+
 @media (max-width: 480px) {
   .hero-headline-sub {
     font-size: 0.78rem;
@@ -979,19 +1045,6 @@
   }
 }
 
-@media (max-height: 540px) and (max-width: 1100px) {
-  .splitscreen-wrapper {
-    height: auto;
-    min-height: 0;
-    overflow: visible;
-  }
-
-  .split-right-panel {
-    height: 200px;
-    min-height: 180px;
-  }
-}
-
 /* ==========================================================================
    Sticky site header (appears after scrolling past the hero)
    ========================================================================== */
@@ -1009,6 +1062,7 @@
   pointer-events: none;
   transition: transform 0.32s ease, opacity 0.28s ease, visibility 0.28s ease;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
 }
 
 .site-sticky-header.is-visible {
@@ -1016,6 +1070,7 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  overflow: visible;
 }
 
 .site-sticky-header__inner {
@@ -1026,27 +1081,36 @@
   gap: 16px;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 10px 28px;
+  padding: 0 28px;
+  height: 64px;
   min-height: 64px;
   overflow: visible;
 }
 
 .site-sticky-header .nav-brand-group {
   gap: 18px;
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0;
   overflow: visible;
+  align-items: center;
+}
+
+.site-sticky-header nav {
+  display: flex;
+  align-items: center;
 }
 
 .site-sticky-header .site-sticky-logo {
-  height: 64px;
+  height: 52px;
   width: auto;
-  max-height: 64px;
+  max-height: 52px;
   object-fit: contain;
   object-position: left center;
   border-radius: 0;
   flex-shrink: 0;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+  position: relative;
+  top: -6px;
 }
 
 .site-sticky-header .split-menu-links {
@@ -1117,7 +1181,9 @@
   }
 
   .site-sticky-header__inner {
-    padding: 10px 16px;
+    padding: 8px 16px;
+    height: auto;
+    min-height: 64px;
     flex-wrap: nowrap;
   }
 
@@ -1137,26 +1203,33 @@
 
   .site-sticky-header .nav-brand-group {
     flex: 1;
+    position: static;
   }
 
   .site-sticky-header .split-menu-links {
     display: none;
     position: absolute;
-    top: calc(100% + 2px);
-    left: 12px;
-    right: 12px;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: rgba(3, 49, 58, 0.98);
-    padding: 8px 12px 14px;
-    border-radius: 12px;
-    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
-    z-index: 20;
+    margin: 0;
+    background: #03313a;
+    padding: 10px 16px 16px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+    z-index: 50;
   }
 
   .site-sticky-header .split-menu-links.is-open {
     display: flex;
+  }
+
+  .site-sticky-header:has(.split-menu-links.is-open) .sticky-nav-burger .fa-bars::before {
+    content: '\f00d';
   }
 
   .site-sticky-header .split-menu-link {
@@ -1222,5 +1295,6 @@
     height: 48px;
     max-height: 48px;
     width: auto;
+    top: -5px;
   }
 }
