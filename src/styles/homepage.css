@@ -892,7 +892,7 @@ html, body {
 }
 
 .footer-logo {
-  height: 48px;
+  height: 80px;
   width: auto;
   filter: brightness(0) invert(1);
   opacity: 0.95;
